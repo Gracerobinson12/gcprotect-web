@@ -1,0 +1,41 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #1C1C1E;
+  --bg-2: #2C2C2E;
+  --bg-3: #3A3A3C;
+  --glass: rgba(255,255,255,0.07);
+  --glass-border: rgba(255,255,255,0.12);
+  --glass-hover: rgba(255,255,255,0.11);
+  --text: #FFFFFF;
+  --text-2: rgba(255,255,255,0.75);
+  --text-3: rgba(255,255,255,0.45);
+  --blue: #0A84FF;
+  --blue-dim: rgba(10,132,255,0.18);
+  --green: #30D158;
+  --green-dim: rgba(48,209,88,0.15);
+  --red: #FF453A;
+  --red-dim: rgba(255,69,58,0.15);
+  --yellow: #FFD60A;
+  --yellow-dim: rgba(255,214,10,0.15);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+
+::selection {
+  background: rgba(10,132,255,0.3);
+}
