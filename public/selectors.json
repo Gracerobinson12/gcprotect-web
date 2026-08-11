@@ -1,0 +1,81 @@
+{
+  "version": "1.0.0",
+  "updated": "2025-07-14",
+  "platforms": {
+    "chatgpt": {
+      "host": "chat.openai.com",
+      "name": "ChatGPT",
+      "inputSelectors": [
+        "#prompt-textarea",
+        "div[contenteditable='true'][aria-label='Message ChatGPT']",
+        "div[contenteditable='true'][data-lexical-editor]",
+        "div[contenteditable='true'][aria-multiline='true']",
+        "div[contenteditable='true']",
+        "textarea"
+      ],
+      "sendSelectors": [
+        "button[data-testid='send-button']",
+        "button[aria-label='Send message']",
+        "button[aria-label='Send prompt']",
+        "button[aria-label='Send Message']"
+      ]
+    },
+    "claude": {
+      "host": "claude.ai",
+      "name": "Claude",
+      "inputSelectors": [
+        "div[contenteditable='true'][aria-label='Write your prompt to Claude']",
+        "div[contenteditable='true'].ProseMirror",
+        "div[contenteditable='true']",
+        "textarea"
+      ],
+      "sendSelectors": [
+        "button[aria-label='Send message']",
+        "button[aria-label='Send Message']",
+        "button[type='submit']"
+      ]
+    },
+    "gemini": {
+      "host": "gemini.google.com",
+      "name": "Gemini",
+      "inputSelectors": [
+        "div[contenteditable='true'][aria-label='Enter a prompt here']",
+        "div.ql-editor[contenteditable='true']",
+        "div[contenteditable='true']",
+        "textarea"
+      ],
+      "sendSelectors": [
+        "button[aria-label='Send message']",
+        "button.send-button",
+        "button[jsname='kDrO3d']"
+      ]
+    },
+    "copilot": {
+      "host": "copilot.microsoft.com",
+      "name": "Copilot",
+      "inputSelectors": [
+        "textarea[id='userInput']",
+        "div[contenteditable='true']",
+        "textarea"
+      ],
+      "sendSelectors": [
+        "button[aria-label='Submit message']",
+        "button[aria-label='Send']",
+        "button[type='submit']"
+      ]
+    },
+    "perplexity": {
+      "host": "perplexity.ai",
+      "name": "Perplexity",
+      "inputSelectors": [
+        "textarea[placeholder='Ask anything...']",
+        "textarea[placeholder]",
+        "textarea"
+      ],
+      "sendSelectors": [
+        "button[aria-label='Submit']",
+        "button[type='submit']"
+      ]
+    }
+  }
+}
