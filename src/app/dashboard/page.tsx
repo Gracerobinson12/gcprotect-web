@@ -1,4 +1,6 @@
 'use client'
+import { useState, useEffect } from 'react'
+import { createClient } from '@/lib/supabase'
 
 const glass: React.CSSProperties = {
   background: 'rgba(255,255,255,0.07)',
@@ -9,6 +11,79 @@ const glass: React.CSSProperties = {
 }
 
 export default function Dashboard() {
+  const [user, setUser] = useState<any>(null)
+  const [profile, setProfile] = useState<any>(null)
+  const [daysLeft, setDaysLeft] = useState(30)
+  const [loading, setLoading] = useState(true)
+  const [feedback, setFeedback] = useState({ rating: 0, category: 'general', message: '' })
+  const [feedbackSent, setFeedbackSent] = useState(false)
+  const [feedbackLoading, setFeedbackLoading] = useState(false)
+
+  useEffect(() => {
+    async function load() {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) { window.location.href = '/login'; return }
+      setUser(user)
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single()
+
+      setProfile(profile)
+
+      if (profile?.trial_ends_at) {
+        const end = new Date(profile.trial_ends_at)
+        const now = new Date()
+        const diff = Math.ceil((end.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+        setDaysLeft(Math.max(0, diff))
+      }
+
+      setLoading(false)
+    }
+    load()
+  }, [])
+
+  async function handleDownload() {
+    const supabase = createClient()
+    await supabase.from('downloads').insert({ user_id: user.id, version: 'v2' })
+    window.location.href = '/GCProtect-v2.zip'
+  }
+
+  async function handleFeedback(e: React.FormEvent) {
+    e.preventDefault()
+    if (!feedback.message.trim()) return
+    setFeedbackLoading(true)
+    try {
+      const supabase = createClient()
+      await supabase.from('feedback').insert({
+        user_id: user.id,
+        email: user.email,
+        rating: feedback.rating || null,
+        category: feedback.category,
+        message: feedback.message,
+      })
+      setFeedbackSent(true)
+    } catch (e) {}
+    setFeedbackLoading(false)
+  }
+
+  async function handleLogout() {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    window.location.href = '/'
+  }
+
+  const trialColor = daysLeft <= 3 ? '#FF453A' : daysLeft <= 7 ? '#FF9F0A' : '#30D158'
+
+  if (loading) return (
+    <div style={{ background:'#1C1C1E', minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', color:'rgba(255,255,255,0.4)', fontFamily:'-apple-system,sans-serif', fontSize:14 }}>
+      Loading your dashboard...
+    </div>
+  )
+
   return (
     <div style={{ fontFamily:'-apple-system,BlinkMacSystemFont,sans-serif', background:'#1C1C1E', color:'#fff', minHeight:'100vh' }}>
 
@@ -19,35 +94,58 @@ export default function Dashboard() {
           GC Protect
         </a>
         <div style={{ display:'flex', alignItems:'center', gap:16 }}>
-          <span style={{ fontSize:11, fontWeight:600, padding:'3px 10px', borderRadius:10, background:'rgba(10,132,255,0.2)', color:'#0A84FF', border:'1px solid rgba(10,132,255,0.3)' }}>
-            Individual Plan
-          </span>
-          <a href="mailto:hello@gratiacore.com" style={{ fontSize:13, color:'rgba(255,255,255,0.4)', textDecoration:'none' }}>Support</a>
+          <span style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>{user?.email}</span>
+          <button onClick={handleLogout} style={{ background:'none', border:'1px solid rgba(255,255,255,0.15)', color:'rgba(255,255,255,0.5)', padding:'6px 14px', borderRadius:8, fontSize:13, cursor:'pointer', fontFamily:'inherit' }}>
+            Log out
+          </button>
         </div>
       </nav>
 
       <div style={{ maxWidth:860, margin:'0 auto', padding:'40px 5vw' }}>
 
-        <h1 style={{ fontSize:28, fontWeight:700, letterSpacing:'-0.02em', marginBottom:8 }}>Your Dashboard</h1>
-        <p style={{ fontSize:15, color:'rgba(255,255,255,0.5)', marginBottom:32 }}>Individual Plan · Protected by GC Protect V2</p>
+        {/* Welcome */}
+        <div style={{ marginBottom:28 }}>
+          <h1 style={{ fontSize:28, fontWeight:700, letterSpacing:'-0.02em', marginBottom:6 }}>
+            Welcome{profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''} 👋
+          </h1>
+          <p style={{ fontSize:15, color:'rgba(255,255,255,0.5)', margin:0 }}>Your GC Protect dashboard — Individual Plan</p>
+        </div>
 
-        {/* Install CTA */}
-        <div style={{ ...glass, padding:'20px 24px', marginBottom:24, display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const, gap:16, border:'1.5px solid rgba(10,132,255,0.4)' }}>
+        {/* Trial countdown */}
+        <div style={{ ...glass, padding:'20px 24px', marginBottom:20, border:`1px solid ${trialColor}40`, background:`rgba(${daysLeft<=3?'255,69,58':daysLeft<=7?'255,159,10':'48,209,88'},0.06)`, display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const, gap:12 }}>
           <div>
-            <div style={{ fontSize:15, fontWeight:600, marginBottom:4 }}>🛡 Install GC Protect V2</div>
-            <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>Takes 2 minutes. Works on ChatGPT, Claude, Gemini, Copilot, DeepSeek and more.</div>
+            <div style={{ fontSize:13, fontWeight:600, color:trialColor, marginBottom:4 }}>
+              {daysLeft <= 0 ? '⚠️ Trial expired' : `🕐 ${daysLeft} day${daysLeft!==1?'s':''} left in your free trial`}
+            </div>
+            <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>
+              {daysLeft <= 0 ? 'Subscribe to continue protecting your AI prompts.' : daysLeft <= 7 ? 'Your trial ends soon — subscribe to keep your protection.' : 'After your trial, $12/month to continue.'}
+            </div>
           </div>
-          <a href="/GCProtect-v2.zip" style={{ background:'#30D158', color:'#000', padding:'10px 22px', borderRadius:10, fontSize:14, fontWeight:700, textDecoration:'none', flexShrink:0 }}>
-            ⬇️ Download V2
-          </a>
+          {daysLeft <= 7 && (
+            <a href="https://buy.stripe.com/test_dRm8wR5QQ7zd38K5DA5wI00" style={{ background:'#0A84FF', color:'#fff', padding:'10px 22px', borderRadius:10, fontSize:14, fontWeight:700, textDecoration:'none', flexShrink:0 }}>
+              Subscribe — $12/mo
+            </a>
+          )}
         </div>
 
         {/* Chrome store notice */}
-        <div style={{ ...glass, padding:'14px 20px', marginBottom:28, background:'rgba(255,159,10,0.08)', border:'1px solid rgba(255,159,10,0.2)', display:'flex', gap:12, alignItems:'center' }}>
-          <span style={{ fontSize:20 }}>⏳</span>
+        <div style={{ ...glass, padding:'14px 20px', marginBottom:24, background:'rgba(255,159,10,0.08)', border:'1px solid rgba(255,159,10,0.2)', display:'flex', gap:12, alignItems:'center' }}>
+          <span style={{ fontSize:18 }}>⏳</span>
           <div style={{ fontSize:13, color:'rgba(255,255,255,0.6)' }}>
-            <strong style={{ color:'#FF9F0A' }}>Chrome Web Store submission in review.</strong> While Google reviews it, install directly using the download above — identical product, zero difference.
+            <strong style={{ color:'#FF9F0A' }}>Chrome Web Store — submission in review.</strong> Install manually using the download below while we wait for approval. Same product, zero difference.
           </div>
+        </div>
+
+        {/* Download — gated behind account */}
+        <div style={{ ...glass, padding:'24px', marginBottom:24, border:'1.5px solid rgba(10,132,255,0.4)', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const, gap:16 }}>
+          <div>
+            <div style={{ fontSize:15, fontWeight:600, marginBottom:4 }}>🛡 GC Protect V2 — Ready to install</div>
+            <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)', marginBottom:6 }}>Download and install in Chrome in under 2 minutes.</div>
+            <a href="/install" style={{ fontSize:13, color:'#0A84FF', textDecoration:'none' }}>📖 View step-by-step install guide →</a>
+          </div>
+          <button onClick={handleDownload} style={{ background:'#30D158', color:'#000', padding:'12px 24px', borderRadius:10, fontSize:14, fontWeight:700, border:'none', cursor:'pointer', fontFamily:'inherit', flexShrink:0 }}>
+            ⬇️ Download GC Protect V2
+          </button>
         </div>
 
         {/* Stats */}
@@ -67,16 +165,16 @@ export default function Dashboard() {
         </div>
 
         {/* Plan features */}
-        <div style={{ fontSize:11, fontWeight:600, letterSpacing:'.07em', color:'rgba(255,255,255,0.3)', marginBottom:12 }}>INDIVIDUAL PLAN — $12/MO</div>
+        <div style={{ fontSize:11, fontWeight:600, letterSpacing:'.07em', color:'rgba(255,255,255,0.3)', marginBottom:12 }}>YOUR PLAN — INDIVIDUAL · $12/MO AFTER TRIAL</div>
         <div style={{ ...glass, padding:'20px 24px', marginBottom:28 }}>
           {[
             { icon:'🛡', label:'Protection', value:'Unlimited prompts — no cap' },
-            { icon:'🤖', label:'AI Platforms', value:'ChatGPT, Claude, Gemini, Copilot, DeepSeek, Perplexity, Grok, Poe + more' },
-            { icon:'🔍', label:'Detection', value:'13+ data types: SSN, emails, API keys, GitHub tokens, passwords, DB strings' },
+            { icon:'🤖', label:'AI Platforms', value:'ChatGPT, Claude, Gemini, Copilot, DeepSeek, Perplexity, Grok + more' },
+            { icon:'🔐', label:'Security', value:'Cryptographic tokens — unique every time, no patterns, no reuse' },
             { icon:'📊', label:'Risk scoring', value:'Every prompt scored 0–100 before it sends' },
             { icon:'✅', label:'V2 Restoration', value:'Real names restored automatically in AI responses' },
             { icon:'🚩', label:'Safety flagging', value:'Harmful content flagged with crisis resources surfaced' },
-            { icon:'📋', label:'Audit log', value:'Full timestamped history, CSV export for compliance' },
+            { icon:'📋', label:'Audit log', value:'Timestamped history, CSV export for compliance or legal use' },
             { icon:'👤', label:'Seats', value:'1 person — Team plan coming soon' },
           ].map((f,i,arr)=>(
             <div key={f.label} style={{ display:'flex', alignItems:'flex-start', gap:14, padding:'10px 0', borderBottom:i<arr.length-1?'1px solid rgba(255,255,255,0.06)':'none' }}>
@@ -88,13 +186,13 @@ export default function Dashboard() {
             </div>
           ))}
 
-          {/* Team coming soon teaser */}
+          {/* Team teaser */}
           <div style={{ marginTop:16, padding:'14px 16px', background:'rgba(255,255,255,0.04)', borderRadius:10, display:'flex', alignItems:'center', justifyContent:'space-between', gap:12, flexWrap:'wrap' as const }}>
             <div>
-              <div style={{ fontSize:13, fontWeight:600, color:'rgba(255,255,255,0.5)', marginBottom:3 }}>🔒 Team Plan — Coming Soon</div>
-              <div style={{ fontSize:12, color:'rgba(255,255,255,0.3)' }}>Shared rules, admin dashboard, team audit log, Slack alerts — up to 10 seats</div>
+              <div style={{ fontSize:13, fontWeight:600, color:'rgba(255,255,255,0.4)', marginBottom:3 }}>🔒 Team Plan — Coming Soon</div>
+              <div style={{ fontSize:12, color:'rgba(255,255,255,0.25)' }}>Shared rules, admin dashboard, team audit log, Slack alerts</div>
             </div>
-            <a href="mailto:hello@gratiacore.com?subject=Team Plan Waitlist" style={{ fontSize:12, fontWeight:600, color:'#0A84FF', textDecoration:'none', flexShrink:0, background:'rgba(10,132,255,0.1)', padding:'7px 14px', borderRadius:8, border:'1px solid rgba(10,132,255,0.2)' }}>
+            <a href="mailto:hello@gratiacore.com?subject=Team Plan Waitlist" style={{ fontSize:12, fontWeight:600, color:'#0A84FF', textDecoration:'none', background:'rgba(10,132,255,0.1)', padding:'7px 14px', borderRadius:8, border:'1px solid rgba(10,132,255,0.2)', flexShrink:0 }}>
               Join Waitlist
             </a>
           </div>
@@ -104,11 +202,11 @@ export default function Dashboard() {
         <div style={{ fontSize:11, fontWeight:600, letterSpacing:'.07em', color:'rgba(255,255,255,0.3)', marginBottom:12 }}>HOW TO USE GC PROTECT</div>
         <div style={{ ...glass, padding:'20px 24px', marginBottom:28 }}>
           {[
-            { step:'1', title:'Open any AI tool', desc:'Go to ChatGPT, Claude, Gemini, Copilot, or DeepSeek. GC Protect activates automatically.' },
-            { step:'2', title:'Type or paste your prompt with customer data', desc:'Include whatever information you need — names, emails, SSNs, financial data.' },
-            { step:'3', title:'GC Protect intercepts before it sends', desc:"A popup shows the risk score and what was detected. Click 'Protect & Send' to anonymize and submit." },
-            { step:'4', title:'AI answers — real names restored automatically', desc:'V2 automatically swaps tokens back in the response. You see real names. The AI never did.' },
-            { step:'5', title:'Check your audit log anytime', desc:'Click the GC Protect icon in Chrome toolbar to see everything protected, flagged, or sent unprotected.' },
+            { step:'1', title:'Download and install', desc:<>Click the download button above. Then follow the <a href="/install" style={{ color:'#0A84FF' }}>step-by-step install guide</a> — takes under 2 minutes.</> },
+            { step:'2', title:'Open any AI tool', desc:'Go to ChatGPT, Claude, Gemini, Copilot, or DeepSeek. GC Protect activates automatically on all supported platforms.' },
+            { step:'3', title:'Type your prompt with customer data', desc:'Include whatever information you need. GC Protect watches the prompt box in real time.' },
+            { step:'4', title:'Click Protect & Send', desc:'The overlay shows what was detected and the risk score. One click anonymizes everything and sends the protected version.' },
+            { step:'5', title:'Read the AI response — real names restored', desc:'V2 automatically swaps tokens back. You see real names. The AI never did. Completely invisible.' },
           ].map((item,i)=>(
             <div key={i} style={{ display:'flex', gap:14, padding:'12px 0', borderBottom:i<4?'1px solid rgba(255,255,255,0.06)':'none', alignItems:'flex-start' }}>
               <div style={{ width:26, height:26, borderRadius:'50%', background:'#0A84FF', display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:700, flexShrink:0, marginTop:2 }}>{item.step}</div>
@@ -120,14 +218,70 @@ export default function Dashboard() {
           ))}
         </div>
 
+        {/* Feedback form */}
+        <div style={{ fontSize:11, fontWeight:600, letterSpacing:'.07em', color:'rgba(255,255,255,0.3)', marginBottom:12 }}>TELL US WHAT YOU THINK</div>
+        <div style={{ ...glass, padding:'24px', marginBottom:28 }}>
+          {feedbackSent ? (
+            <div style={{ textAlign:'center', padding:'20px' }}>
+              <div style={{ fontSize:32, marginBottom:12 }}>🙏</div>
+              <div style={{ fontSize:16, fontWeight:600, marginBottom:6 }}>Thank you for your feedback!</div>
+              <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>We read every response and use it to improve GC Protect.</div>
+            </div>
+          ) : (
+            <form onSubmit={handleFeedback}>
+              <div style={{ fontSize:15, fontWeight:600, marginBottom:16 }}>How is GC Protect working for you?</div>
+
+              {/* Star rating */}
+              <div style={{ marginBottom:16 }}>
+                <div style={{ fontSize:12, fontWeight:600, color:'rgba(255,255,255,0.4)', marginBottom:8, letterSpacing:'.05em' }}>RATING</div>
+                <div style={{ display:'flex', gap:8 }}>
+                  {[1,2,3,4,5].map(star=>(
+                    <button key={star} type="button" onClick={()=>setFeedback({...feedback, rating:star})}
+                      style={{ background:'none', border:'none', cursor:'pointer', fontSize:28, opacity:feedback.rating>=star?1:0.3, transition:'opacity .15s', padding:0 }}>
+                      ⭐
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Category */}
+              <div style={{ marginBottom:16 }}>
+                <div style={{ fontSize:12, fontWeight:600, color:'rgba(255,255,255,0.4)', marginBottom:8, letterSpacing:'.05em' }}>CATEGORY</div>
+                <div style={{ display:'flex', gap:8, flexWrap:'wrap' as const }}>
+                  {['general','bug','feature request','question','other'].map(cat=>(
+                    <button key={cat} type="button" onClick={()=>setFeedback({...feedback, category:cat})}
+                      style={{ padding:'6px 14px', borderRadius:20, fontSize:12, fontWeight:500, border:'1px solid', borderColor:feedback.category===cat?'#0A84FF':'rgba(255,255,255,0.15)', background:feedback.category===cat?'rgba(10,132,255,0.2)':'transparent', color:feedback.category===cat?'#60A5FA':'rgba(255,255,255,0.5)', cursor:'pointer', fontFamily:'inherit', textTransform:'capitalize' }}>
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Message */}
+              <div style={{ marginBottom:16 }}>
+                <div style={{ fontSize:12, fontWeight:600, color:'rgba(255,255,255,0.4)', marginBottom:8, letterSpacing:'.05em' }}>YOUR FEEDBACK</div>
+                <textarea value={feedback.message} onChange={e=>setFeedback({...feedback, message:e.target.value})}
+                  placeholder="Tell us what's working, what's not, or what you'd love to see next..."
+                  required
+                  style={{ width:'100%', minHeight:100, background:'rgba(0,0,0,0.25)', border:'1px solid rgba(255,255,255,0.12)', borderRadius:10, padding:'12px 14px', color:'#fff', fontSize:13, lineHeight:1.6, resize:'none', outline:'none', fontFamily:'inherit', boxSizing:'border-box' }}
+                />
+              </div>
+
+              <button type="submit" disabled={feedbackLoading} style={{ background:'#0A84FF', color:'#fff', border:'none', borderRadius:10, padding:'11px 24px', fontSize:14, fontWeight:600, cursor:feedbackLoading?'not-allowed':'pointer', fontFamily:'inherit' }}>
+                {feedbackLoading ? 'Sending...' : 'Send feedback'}
+              </button>
+            </form>
+          )}
+        </div>
+
         {/* Support */}
         <div style={{ ...glass, padding:'20px 24px', textAlign:'center' as const, background:'rgba(255,255,255,0.03)' }}>
-          <div style={{ fontSize:14, color:'rgba(255,255,255,0.4)', marginBottom:8 }}>Questions, issues, or feature requests?</div>
+          <div style={{ fontSize:14, color:'rgba(255,255,255,0.4)', marginBottom:8 }}>Questions or need help installing?</div>
           <a href="mailto:hello@gratiacore.com" style={{ color:'#0A84FF', textDecoration:'none', fontSize:14, fontWeight:500 }}>hello@gratiacore.com</a>
-          <span style={{ color:'rgba(255,255,255,0.2)', margin:'0 12px' }}>·</span>
-          <a href="/privacy" style={{ color:'rgba(255,255,255,0.3)', textDecoration:'none', fontSize:13 }}>Privacy Policy</a>
-          <span style={{ color:'rgba(255,255,255,0.2)', margin:'0 12px' }}>·</span>
-          <a href="/terms" style={{ color:'rgba(255,255,255,0.3)', textDecoration:'none', fontSize:13 }}>Terms</a>
+          <span style={{ color:'rgba(255,255,255,0.15)', margin:'0 12px' }}>·</span>
+          <a href="/install" style={{ color:'rgba(255,255,255,0.4)', textDecoration:'none', fontSize:13 }}>Install guide</a>
+          <span style={{ color:'rgba(255,255,255,0.15)', margin:'0 12px' }}>·</span>
+          <a href="/privacy" style={{ color:'rgba(255,255,255,0.4)', textDecoration:'none', fontSize:13 }}>Privacy</a>
         </div>
 
       </div>
