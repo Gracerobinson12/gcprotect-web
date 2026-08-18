@@ -1,10 +1,95 @@
 {
-  "version": "2.0.0",
-  "supabase_url": "https://okdsowwzqbwdhnqshdmy.supabase.co",
-  "anon_key": "REPLACE_WITH_YOUR_ANON_KEY",
-  "features": {
-    "stats_reporting": true,
-    "safety_flagging": true,
-    "response_restoration": true
+  "version": "1.0.0",
+  "supabase_url": "https://your-project.supabase.co",
+  "anon_key": "your-anon-key",
+  "selectors": {
+    "chatgpt": {
+      "prompt_box": [
+        "#prompt-textarea",
+        "div[contenteditable=\"true\"][aria-label=\"Message ChatGPT\"]",
+        "div[contenteditable=\"true\"][data-lexical-editor]",
+        "div[contenteditable=\"true\"][aria-multiline=\"true\"]"
+      ],
+      "send_button": [
+        "button[data-testid=\"send-button\"]",
+        "button[aria-label=\"Send message\"]",
+        "button[aria-label=\"Send prompt\"]"
+      ]
+    },
+    "claude": {
+      "prompt_box": [
+        "div[contenteditable=\"true\"][enterkeyhint=\"send\"]",
+        ".ProseMirror",
+        "div[contenteditable=\"true\"][role=\"textbox\"]"
+      ],
+      "send_button": [
+        "button[aria-label=\"Send Message\"]",
+        "button[type=\"submit\"]",
+        "button[data-testid=\"send-button\"]"
+      ]
+    },
+    "gemini": {
+      "prompt_box": [
+        "textarea",
+        "div[contenteditable=\"true\"][role=\"textbox\"]",
+        "rich-textarea"
+      ],
+      "send_button": [
+        "button[aria-label=\"Send\"]",
+        "button[data-testid=\"send-button\"]"
+      ]
+    },
+    "copilot": {
+      "prompt_box": [
+        "#user-input",
+        "textarea",
+        "div[contenteditable=\"true\"]"
+      ],
+      "send_button": [
+        "button[aria-label=\"Send\"]",
+        "button[data-testid=\"send-button\"]"
+      ]
+    },
+    "deepseek": {
+      "prompt_box": [
+        "textarea",
+        "div[contenteditable=\"true\"]"
+      ],
+      "send_button": [
+        "button[type=\"submit\"]",
+        "button[aria-label=\"Send\"]"
+      ]
+    },
+    "perplexity": {
+      "prompt_box": [
+        "#new-chat-input",
+        "textarea",
+        "div[contenteditable=\"true\"]"
+      ],
+      "send_button": [
+        "button[aria-label=\"Send\"]",
+        "button[data-testid=\"send-button\"]"
+      ]
+    },
+    "grok": {
+      "prompt_box": [
+        "textarea",
+        "div[contenteditable=\"true\"]"
+      ],
+      "send_button": [
+        "button[aria-label=\"Send\"]",
+        "button[type=\"submit\"]"
+      ]
+    },
+    "poe": {
+      "prompt_box": [
+        "div[contenteditable=\"true\"]",
+        "textarea"
+      ],
+      "send_button": [
+        "button[aria-label=\"Send message\"]",
+        "button[type=\"submit\"]"
+      ]
+    }
   }
 }
