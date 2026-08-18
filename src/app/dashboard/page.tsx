@@ -18,6 +18,9 @@ export default function Dashboard() {
   const [feedback, setFeedback] = useState({ rating: 0, category: 'general', message: '' })
   const [feedbackSent, setFeedbackSent] = useState(false)
   const [feedbackLoading, setFeedbackLoading] = useState(false)
+  const [stats, setStats] = useState({ total_protected: 0, total_fields_secured: 0, critical_blocked: 0, safety_flags: 0 })
+  const [versions, setVersions] = useState<any[]>([])
+  const [latestVersion, setLatestVersion] = useState('')
 
   useEffect(() => {
     async function load() {
@@ -34,12 +37,41 @@ export default function Dashboard() {
 
       setProfile(profile)
 
+      // Store auth token in Chrome extension storage
+      // Extension uses this to post stats to Supabase
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session && typeof window !== 'undefined' && (window as any).chrome?.runtime) {
+        try {
+          (window as any).chrome.storage?.local?.set({
+            gc_user_id: user.id,
+            gc_access_token: session.access_token,
+          })
+        } catch (e) {}
+      }
+
       if (profile?.trial_ends_at) {
         const end = new Date(profile.trial_ends_at)
         const now = new Date()
         const diff = Math.ceil((end.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
         setDaysLeft(Math.max(0, diff))
       }
+
+      // Load version history
+      try {
+        const vRes = await fetch('/versions.json')
+        const vData = await vRes.json()
+        setVersions(vData.versions || [])
+        setLatestVersion(vData.latest || '')
+      } catch (e) {}
+
+      // Load stats
+      const { data: statsData } = await supabase
+        .from('user_stats')
+        .select('*')
+        .eq('user_id', user.id)
+        .single()
+
+      if (statsData) setStats(statsData)
 
       setLoading(false)
     }
@@ -152,10 +184,10 @@ export default function Dashboard() {
         <div style={{ fontSize:11, fontWeight:600, letterSpacing:'.07em', color:'rgba(255,255,255,0.3)', marginBottom:12 }}>YOUR PROTECTION STATS</div>
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))', gap:10, marginBottom:28 }}>
           {[
-            { val:'0', label:'Prompts protected', color:'#30D158' },
-            { val:'0', label:'Data fields secured', color:'#fff' },
-            { val:'0', label:'Critical risks blocked', color:'#FF453A' },
-            { val:'0', label:'Safety flags logged', color:'#FF9F0A' },
+            { val: String(stats.total_protected || 0), label:'Prompts protected', color:'#30D158' },
+            { val: String(stats.total_fields_secured || 0), label:'Data fields secured', color:'#fff' },
+            { val: String(stats.critical_blocked || 0), label:'Critical risks blocked', color:'#FF453A' },
+            { val: String(stats.safety_flags || 0), label:'Safety flags logged', color:'#FF9F0A' },
           ].map(stat=>(
             <div key={stat.label} style={{ ...glass, padding:'16px 20px' }}>
               <div style={{ fontSize:28, fontWeight:700, color:stat.color, lineHeight:1, marginBottom:4 }}>{stat.val}</div>
@@ -214,6 +246,44 @@ export default function Dashboard() {
                 <div style={{ fontSize:14, fontWeight:500, marginBottom:3 }}>{item.title}</div>
                 <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)', lineHeight:1.5 }}>{item.desc}</div>
               </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Version updates */}
+        <div style={{ fontSize:11, fontWeight:600, letterSpacing:'.07em', color:'rgba(255,255,255,0.3)', marginBottom:12 }}>VERSION UPDATES</div>
+        <div style={{ ...glass, padding:'20px 24px', marginBottom:28 }}>
+          {versions.length === 0 ? (
+            <div style={{ fontSize:13, color:'rgba(255,255,255,0.4)' }}>Loading updates...</div>
+          ) : versions.map((v, i) => (
+            <div key={v.version} style={{ paddingBottom: i < versions.length-1 ? 20 : 0, marginBottom: i < versions.length-1 ? 20 : 0, borderBottom: i < versions.length-1 ? '1px solid rgba(255,255,255,0.07)' : 'none' }}>
+              <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:10, flexWrap:'wrap' as const }}>
+                <div style={{ fontFamily:'monospace', fontSize:15, fontWeight:700 }}>v{v.version}</div>
+                {v.version === latestVersion && (
+                  <span style={{ fontSize:10, fontWeight:700, padding:'2px 8px', borderRadius:10, background:'rgba(48,209,88,0.15)', color:'#30D158', border:'1px solid rgba(48,209,88,0.3)' }}>LATEST</span>
+                )}
+                {v.type === 'major' && (
+                  <span style={{ fontSize:10, fontWeight:700, padding:'2px 8px', borderRadius:10, background:'rgba(10,132,255,0.15)', color:'#0A84FF', border:'1px solid rgba(10,132,255,0.3)' }}>MAJOR UPDATE</span>
+                )}
+                <span style={{ fontSize:12, color:'rgba(255,255,255,0.3)', marginLeft:'auto' }}>{v.date}</span>
+              </div>
+              <div style={{ display:'flex', flexDirection:'column' as const, gap:5, marginBottom:12 }}>
+                {v.highlights.map((h: string) => (
+                  <div key={h} style={{ display:'flex', gap:8, fontSize:13, color:'rgba(255,255,255,0.6)' }}>
+                    <span style={{ color:'#30D158', flexShrink:0 }}>✓</span>{h}
+                  </div>
+                ))}
+              </div>
+              {v.download && (
+                <button
+                  onClick={v.version === latestVersion ? handleDownload : () => window.location.href = v.download}
+                  style={{ background: v.version === latestVersion ? '#30D158' : 'rgba(255,255,255,0.08)', color: v.version === latestVersion ? '#000' : 'rgba(255,255,255,0.6)', border:'none', borderRadius:9, padding:'9px 18px', fontSize:13, fontWeight:600, cursor:'pointer', fontFamily:'inherit' }}>
+                  {v.version === latestVersion ? '⬇️ Download latest' : `⬇️ Download v${v.version}`}
+                </button>
+              )}
+              {!v.download && (
+                <div style={{ fontSize:12, color:'rgba(255,255,255,0.2)' }}>No longer available</div>
+              )}
             </div>
           ))}
         </div>

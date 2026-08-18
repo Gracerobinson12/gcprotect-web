@@ -1,4 +1,6 @@
 'use client'
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase'
 
 const glass: React.CSSProperties = {
   background: 'rgba(255,255,255,0.07)',
@@ -9,6 +11,27 @@ const glass: React.CSSProperties = {
 }
 
 export default function InstallGuide() {
+  const [authed, setAuthed] = useState(false)
+  const [checking, setChecking] = useState(true)
+
+  useEffect(() => {
+    async function check() {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      setAuthed(!!user)
+      setChecking(false)
+    }
+    check()
+  }, [])
+
+  function handleDownload(e: React.MouseEvent) {
+    if (!authed) {
+      e.preventDefault()
+      window.location.href = '/signup?next=/install'
+    }
+    // if authed, the href to /GCProtect-v2.zip fires normally
+  }
+
   return (
     <div style={{ fontFamily:'-apple-system,BlinkMacSystemFont,SF Pro Display,Inter,sans-serif', background:'#1C1C1E', color:'#fff', minHeight:'100vh' }}>
 
@@ -40,9 +63,17 @@ export default function InstallGuide() {
               <div style={{ flex:1 }}>
                 <div style={{ fontSize:18, fontWeight:600, marginBottom:8 }}>Download GC Protect V2</div>
                 <p style={{ fontSize:14, color:'rgba(255,255,255,0.6)', lineHeight:1.6, marginBottom:16 }}>Click the button below to download. Save it somewhere easy to find — your Desktop works great.</p>
-                <a href="/GCProtect-v2.zip" style={{ display:'inline-flex', alignItems:'center', gap:8, background:'#30D158', color:'#000', padding:'11px 22px', borderRadius:10, fontSize:14, fontWeight:700, textDecoration:'none' }}>
-                  ⬇️ Download GCProtect-v2.zip
+                <a
+                  href={authed ? '/GCProtect-v2.zip' : '/signup?next=/install'}
+                  onClick={handleDownload}
+                  style={{ display:'inline-flex', alignItems:'center', gap:8, background:'#30D158', color:'#000', padding:'11px 22px', borderRadius:10, fontSize:14, fontWeight:700, textDecoration:'none' }}>
+                  {checking ? '...' : authed ? '⬇️ Download GCProtect-v2.zip' : '🔑 Sign up to download'}
                 </a>
+                {!authed && !checking && (
+                  <div style={{ marginTop:10, fontSize:13, color:'rgba(255,255,255,0.4)' }}>
+                    Free account required · 30-day trial · Card charged after trial
+                  </div>
+                )}
               </div>
             </div>
           </div>

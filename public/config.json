@@ -1,0 +1,10 @@
+{
+  "version": "2.0.0",
+  "supabase_url": "https://okdsowwzqbwdhnqshdmy.supabase.co",
+  "anon_key": "REPLACE_WITH_YOUR_ANON_KEY",
+  "features": {
+    "stats_reporting": true,
+    "safety_flagging": true,
+    "response_restoration": true
+  }
+}

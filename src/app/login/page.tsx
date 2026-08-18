@@ -23,7 +23,9 @@ export default function Login() {
       const supabase = createClient()
       const { error } = await supabase.auth.signInWithPassword({ email: form.email, password: form.password })
       if (error) throw error
-      window.location.href = '/dashboard'
+      const params = new URLSearchParams(window.location.search)
+      const next = params.get('next') || '/dashboard'
+      window.location.href = next
     } catch (err: any) {
       setError('Invalid email or password. Please try again.')
     } finally {

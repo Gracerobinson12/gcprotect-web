@@ -31,7 +31,9 @@ export default function Signup() {
         }
       })
       if (error) throw error
-      window.location.href = '/dashboard'
+      const params = new URLSearchParams(window.location.search)
+      const next = params.get('next') || '/dashboard'
+      window.location.href = next
     } catch (err: any) {
       setError(err.message || 'Something went wrong. Please try again.')
     } finally {

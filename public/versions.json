@@ -1,0 +1,35 @@
+{
+  "latest": "2.0.0",
+  "versions": [
+    {
+      "version": "2.0.0",
+      "date": "2025-07-14",
+      "label": "Latest",
+      "download": "/GCProtect-v2.zip",
+      "highlights": [
+        "V2 response restoration — real names restored automatically in AI responses",
+        "Cryptographic token security — unique tokens every time, no patterns",
+        "Safety flagging — harmful content detected with crisis resources",
+        "On/off toggle in popup",
+        "Custom entity patterns — add your own sensitive data formats",
+        "10 AI platforms supported including DeepSeek and Grok",
+        "Fixed send button on all platforms",
+        "Improved overlay with X button and Escape key"
+      ],
+      "type": "major"
+    },
+    {
+      "version": "1.0.0",
+      "date": "2025-07-01",
+      "label": "Initial release",
+      "download": null,
+      "highlights": [
+        "Basic PII detection — names, emails, SSNs, phone numbers",
+        "ChatGPT and Claude support",
+        "Popup with audit log",
+        "Risk scoring 0–100"
+      ],
+      "type": "initial"
+    }
+  ]
+}
