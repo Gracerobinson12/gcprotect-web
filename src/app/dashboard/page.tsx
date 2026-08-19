@@ -13,7 +13,7 @@ const glass: React.CSSProperties = {
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null)
   const [profile, setProfile] = useState<any>(null)
-  const [daysLeft, setDaysLeft] = useState(30)
+  const [daysLeft, setDaysLeft] = useState(7)
   const [loading, setLoading] = useState(true)
   const [feedback, setFeedback] = useState({ rating: 0, category: 'general', message: '' })
   const [feedbackSent, setFeedbackSent] = useState(false)
