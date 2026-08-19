@@ -79,7 +79,7 @@ export default function Login() {
 
         <div style={{ marginTop:20, textAlign:'center', fontSize:14, color:'rgba(255,255,255,0.4)' }}>
           Don't have an account?{' '}
-          <a href="/signup" style={{ color:'#0A84FF', textDecoration:'none', fontWeight:500 }}>Start free — 30 days</a>
+          <a href="/signup" style={{ color:'#0A84FF', textDecoration:'none', fontWeight:500 }}>Start free — 7 days</a>
         </div>
       </div>
     </div>

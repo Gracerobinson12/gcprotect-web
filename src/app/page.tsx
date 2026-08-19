@@ -115,7 +115,7 @@ export default function Home() {
           <a href="#how" style={{ color:'rgba(255,255,255,0.6)', textDecoration:'none', fontSize:15 }}>How it works</a>
           <a href="#pricing" style={{ color:'rgba(255,255,255,0.6)', textDecoration:'none', fontSize:15 }}>Pricing</a>
           <a href="/login" style={{ color:'rgba(255,255,255,0.6)', textDecoration:'none', fontSize:15 }}>Log in</a>
-          <a href="/signup" style={{ background:'#0A84FF', color:'#fff', padding:'8px 20px', borderRadius:20, fontSize:14, fontWeight:600, textDecoration:'none' }}>Try free — 30 days</a>
+          <a href="/signup" style={{ background:'#0A84FF', color:'#fff', padding:'8px 20px', borderRadius:20, fontSize:14, fontWeight:600, textDecoration:'none' }}>Try free — 7 days</a>
         </div>
       </nav>
 
@@ -138,14 +138,14 @@ export default function Home() {
 
         <div style={{ display:'flex', gap:12, flexWrap:'wrap', justifyContent:'center', marginBottom:16 }}>
           <a href="/signup" style={{ background:'#0A84FF', color:'#fff', padding:'15px 36px', borderRadius:14, fontSize:16, fontWeight:700, textDecoration:'none' }}>
-            🛡 Start free — 30 days
+            🛡 Start free — 7 days
           </a>
           <a href="#how" style={{ background:'rgba(255,255,255,0.1)', color:'#fff', padding:'15px 28px', borderRadius:14, fontSize:16, fontWeight:500, textDecoration:'none', border:'1px solid rgba(255,255,255,0.15)' }}>
             See how it works ↓
           </a>
         </div>
         <p style={{ fontSize:13, color:'rgba(255,255,255,0.3)', marginBottom:56 }}>
-          Free for 30 days · Card required after trial · Cancel anytime
+          Free for 7 days · Card required · Cancel anytime
         </p>
 
         <LiveDemo />
@@ -218,8 +218,8 @@ export default function Home() {
       <section id="pricing" style={{ position:'relative', zIndex:1, padding:'100px 5vw' }}>
         <div style={{ maxWidth:760, margin:'0 auto' }}>
           <div style={{ fontSize:12, fontWeight:600, letterSpacing:'.1em', color:'#0A84FF', marginBottom:16 }}>PRICING</div>
-          <h2 style={{ fontSize:'clamp(28px,4vw,44px)', fontWeight:700, letterSpacing:'-0.02em', marginBottom:16, lineHeight:1.15 }}>Simple pricing.<br/>Start free for 30 days.</h2>
-          <p style={{ fontSize:17, color:'rgba(255,255,255,0.55)', marginBottom:48, lineHeight:1.6 }}>Card required after your 30-day trial. Cancel anytime before then.</p>
+          <h2 style={{ fontSize:'clamp(28px,4vw,44px)', fontWeight:700, letterSpacing:'-0.02em', marginBottom:16, lineHeight:1.15 }}>Simple pricing.<br/>Start free for 7 days.</h2>
+          <p style={{ fontSize:17, color:'rgba(255,255,255,0.55)', marginBottom:48, lineHeight:1.6 }}>Card required before 7-day trial. Cancel anytime before then.</p>
 
           <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))', gap:16 }}>
             {/* Individual */}
@@ -232,7 +232,7 @@ export default function Home() {
               </div>
               <div style={{ fontSize:13, color:'rgba(255,255,255,0.4)', marginBottom:6 }}>or $99/yr — save $45</div>
               <div style={{ display:'inline-flex', alignItems:'center', gap:5, background:'rgba(48,209,88,0.12)', border:'1px solid rgba(48,209,88,0.25)', color:'#30D158', fontSize:12, fontWeight:600, padding:'4px 10px', borderRadius:10, marginBottom:20 }}>
-                ✓ First 30 days free — card required after trial
+                ✓ First 7 days free — card required 
               </div>
               {['1 person, unlimited prompts','ChatGPT, Claude, Gemini, Copilot + more','Cryptographic token protection','Risk scoring on every prompt','V2 auto response restoration','Safety flagging built in','Full audit log — CSV export'].map(f=>(
                 <div key={f} style={{ display:'flex', gap:10, fontSize:14, color:'rgba(255,255,255,0.65)', padding:'6px 0', borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
@@ -279,7 +279,7 @@ export default function Home() {
           Try it free. Tell us what you think.
         </h2>
         <p style={{ fontSize:17, color:'rgba(255,255,255,0.55)', marginBottom:36, maxWidth:480, margin:'0 auto 36px' }}>
-          30 days free. Card required after trial. We built this to solve a real problem — we want to know if it solves yours.
+          7 days free. Card required. We built this to solve a real problem — we want to know if it solves yours.
         </p>
         <a href="/signup" style={{ display:'inline-block', background:'#0A84FF', color:'#fff', padding:'16px 40px', borderRadius:14, fontSize:17, fontWeight:700, textDecoration:'none' }}>
           🛡 Create your free account

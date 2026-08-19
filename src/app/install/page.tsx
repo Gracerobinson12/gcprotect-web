@@ -71,7 +71,7 @@ export default function InstallGuide() {
                 </a>
                 {!authed && !checking && (
                   <div style={{ marginTop:10, fontSize:13, color:'rgba(255,255,255,0.4)' }}>
-                    Free account required · 30-day trial · Card charged after trial
+                    Free account required · 7-day trial · Card charged after trial
                   </div>
                 )}
               </div>

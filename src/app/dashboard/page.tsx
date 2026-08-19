@@ -150,7 +150,7 @@ export default function Dashboard() {
               {daysLeft <= 0 ? '⚠️ Trial expired' : `🕐 ${daysLeft} day${daysLeft!==1?'s':''} left in your free trial`}
             </div>
             <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>
-              {daysLeft <= 0 ? 'Subscribe to continue protecting your AI prompts.' : daysLeft <= 7 ? 'Your trial ends soon — subscribe to keep your protection.' : 'After your trial, $12/month to continue.'}
+              {daysLeft <= 0 ? 'Subscribe to continue protecting your AI prompts.' : daysLeft <= 3 ? 'Your trial ends very soon — subscribe now to keep protection.' : daysLeft <= 7 ? 'Your trial ends soon — subscribe to keep your protection.' : 'Card on file — charged after your 7-day trial.'}
             </div>
           </div>
           {daysLeft <= 7 && (
