@@ -71,7 +71,7 @@ export default function InstallGuide() {
                 </a>
                 {!authed && !checking && (
                   <div style={{ marginTop:10, fontSize:13, color:'rgba(255,255,255,0.4)' }}>
-                    Free account required · 7-day trial · Card charged after trial
+                    Free account required · 30-day trial · Card charged after trial
                   </div>
                 )}
               </div>
@@ -195,7 +195,7 @@ export default function InstallGuide() {
                   <a href="/dashboard" style={{ display:'inline-flex', alignItems:'center', gap:8, background:'#0A84FF', color:'#fff', padding:'11px 22px', borderRadius:10, fontSize:14, fontWeight:700, textDecoration:'none' }}>
                     Go to my dashboard →
                   </a>
-                  <a href="mailto:hello@gratiacore.com?subject=GC Protect Install Help" style={{ display:'inline-flex', alignItems:'center', gap:8, background:'rgba(255,255,255,0.08)', color:'rgba(255,255,255,0.7)', padding:'11px 22px', borderRadius:10, fontSize:14, fontWeight:500, textDecoration:'none', border:'1px solid rgba(255,255,255,0.1)' }}>
+                  <a href="mailto:intel@gratiacore.com?subject=GC Protect Install Help" style={{ display:'inline-flex', alignItems:'center', gap:8, background:'rgba(255,255,255,0.08)', color:'rgba(255,255,255,0.7)', padding:'11px 22px', borderRadius:10, fontSize:14, fontWeight:500, textDecoration:'none', border:'1px solid rgba(255,255,255,0.1)' }}>
                     Need help?
                   </a>
                 </div>
@@ -215,7 +215,7 @@ export default function InstallGuide() {
               { q:'Will I need to reinstall when the store version launches?', a:'No, the manual version works identically. When the store version launches you can switch over, but there\'s no rush.' },
               { q:'What if I move or delete the folder?', a:'Chrome loads the extension directly from that folder. If you move or delete it, the extension will stop working. Keep it where it is.' },
               { q:'Does it work on Microsoft Edge?', a:'Yes — go to edge://extensions and follow the exact same steps. Firefox support is coming soon.' },
-              { q:'GC Protect isn\'t intercepting my prompts.', a:'Try: 1) Go to chrome://extensions and click the refresh icon on GC Protect. 2) Open a brand new chat tab. 3) Make sure you\'re logged into the AI platform. Still not working? Email hello@gratiacore.com.' },
+              { q:'GC Protect isn\'t intercepting my prompts.', a:'Try: 1) Go to chrome://extensions and click the refresh icon on GC Protect. 2) Open a brand new chat tab. 3) Make sure you\'re logged into the AI platform. Still not working? Email intel@gratiacore.com.' },
             ].map((faq,i)=>(
               <div key={i} style={{ ...glass, padding:'20px 24px', borderRadius:14 }}>
                 <div style={{ fontSize:14, fontWeight:600, marginBottom:8 }}>{faq.q}</div>
@@ -228,7 +228,7 @@ export default function InstallGuide() {
         <div style={{ marginTop:48, ...glass, padding:'24px', borderRadius:16, textAlign:'center' as const }}>
           <div style={{ fontSize:15, fontWeight:600, marginBottom:6 }}>Still stuck? We'll help.</div>
           <div style={{ fontSize:13, color:'rgba(255,255,255,0.4)', marginBottom:12 }}>Response within a few hours.</div>
-          <a href="mailto:hello@gratiacore.com?subject=GC Protect Install Help" style={{ color:'#0A84FF', textDecoration:'none', fontSize:14, fontWeight:600 }}>hello@gratiacore.com</a>
+          <a href="mailto:intel@gratiacore.com?subject=GC Protect Install Help" style={{ color:'#0A84FF', textDecoration:'none', fontSize:14, fontWeight:600 }}>intel@gratiacore.com</a>
         </div>
 
       </div>
@@ -239,7 +239,7 @@ export default function InstallGuide() {
           GC Protect by Gratia Core
         </div>
         <div style={{ display:'flex', gap:20 }}>
-          {[['Privacy','/privacy'],['Terms','/terms'],['Support','mailto:hello@gratiacore.com']].map(([l,h])=>(
+          {[['Privacy','/privacy'],['Terms','/terms'],['Support','mailto:intel@gratiacore.com']].map(([l,h])=>(
             <a key={l} href={h} style={{ fontSize:13, color:'rgba(255,255,255,0.35)', textDecoration:'none' }}>{l}</a>
           ))}
         </div>

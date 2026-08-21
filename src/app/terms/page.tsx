@@ -32,7 +32,7 @@ export default function Terms() {
       <p style={p}>GC Protect is a browser extension that helps detect and anonymize sensitive data before it is submitted to AI platforms. It is a protective tool — not a guarantee of complete data security.</p>
 
       <h2 style={h2}>Subscription and billing</h2>
-      <p style={p}>GC Protect offers a 7-day free trial. Your card is saved at signup but not charged until the trial ends. After 7 days your subscription begins automatically at the plan rate you selected. You may cancel at any time before the trial ends to avoid being charged. Refunds are handled on a case-by-case basis — contact support within 7 days of a charge.</p>
+      <p style={p}>GC Protect offers a 14-day free trial. Your card is saved at signup but not charged until the trial ends. After 14 days your subscription begins automatically at the plan rate you selected. You may cancel at any time before the trial ends to avoid being charged. Refunds are handled on a case-by-case basis — contact support within 7 days of a charge.</p>
 
       <h2 style={h2}>Acceptable use</h2>
       <p style={p}>You may not use GC Protect for any unlawful purpose, to circumvent security systems, or in ways that violate any third party's rights. You are responsible for how your team uses the product.</p>
@@ -50,7 +50,7 @@ export default function Terms() {
       <p style={p}>These terms are governed by the laws of the State of Georgia, United States.</p>
 
       <h2 style={h2}>Contact</h2>
-      <p style={p}>Questions? Email <a href="mailto:hello@gratiacore.com" style={{ color: '#2D6FFF' }}>hello@gratiacore.com</a></p>
+      <p style={p}>Questions? Email <a href="mailto:intel@gratiacore.com" style={{ color: '#2D6FFF' }}>intel@gratiacore.com</a></p>
     </div>
   )
 }

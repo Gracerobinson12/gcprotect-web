@@ -13,7 +13,7 @@ const glass: React.CSSProperties = {
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null)
   const [profile, setProfile] = useState<any>(null)
-  const [daysLeft, setDaysLeft] = useState(7)
+  const [daysLeft, setDaysLeft] = useState(30)
   const [loading, setLoading] = useState(true)
   const [feedback, setFeedback] = useState({ rating: 0, category: 'general', message: '' })
   const [feedbackSent, setFeedbackSent] = useState(false)
@@ -224,7 +224,7 @@ export default function Dashboard() {
               <div style={{ fontSize:13, fontWeight:600, color:'rgba(255,255,255,0.4)', marginBottom:3 }}>🔒 Team Plan — Coming Soon</div>
               <div style={{ fontSize:12, color:'rgba(255,255,255,0.25)' }}>Shared rules, admin dashboard, team audit log, Slack alerts</div>
             </div>
-            <a href="mailto:hello@gratiacore.com?subject=Team Plan Waitlist" style={{ fontSize:12, fontWeight:600, color:'#0A84FF', textDecoration:'none', background:'rgba(10,132,255,0.1)', padding:'7px 14px', borderRadius:8, border:'1px solid rgba(10,132,255,0.2)', flexShrink:0 }}>
+            <a href="mailto:intel@gratiacore.com?subject=Team Plan Waitlist" style={{ fontSize:12, fontWeight:600, color:'#0A84FF', textDecoration:'none', background:'rgba(10,132,255,0.1)', padding:'7px 14px', borderRadius:8, border:'1px solid rgba(10,132,255,0.2)', flexShrink:0 }}>
               Join Waitlist
             </a>
           </div>
@@ -347,7 +347,7 @@ export default function Dashboard() {
         {/* Support */}
         <div style={{ ...glass, padding:'20px 24px', textAlign:'center' as const, background:'rgba(255,255,255,0.03)' }}>
           <div style={{ fontSize:14, color:'rgba(255,255,255,0.4)', marginBottom:8 }}>Questions or need help installing?</div>
-          <a href="mailto:hello@gratiacore.com" style={{ color:'#0A84FF', textDecoration:'none', fontSize:14, fontWeight:500 }}>hello@gratiacore.com</a>
+          <a href="mailto:intel@gratiacore.com" style={{ color:'#0A84FF', textDecoration:'none', fontSize:14, fontWeight:500 }}>intel@gratiacore.com</a>
           <span style={{ color:'rgba(255,255,255,0.15)', margin:'0 12px' }}>·</span>
           <a href="/install" style={{ color:'rgba(255,255,255,0.4)', textDecoration:'none', fontSize:13 }}>Install guide</a>
           <span style={{ color:'rgba(255,255,255,0.15)', margin:'0 12px' }}>·</span>
