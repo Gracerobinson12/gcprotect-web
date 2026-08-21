@@ -24,64 +24,28 @@ const inp: React.CSSProperties = {
   boxSizing: 'border-box' as const,
 }
 
-// Step 1 — Account info
-// Step 2 — Stripe card collection
-// Step 3 — Done → dashboard
-
 export default function Signup() {
   const [step, setStep] = useState(1)
-  const [form, setForm] = useState({ fullName: '', email: '', password: '', company: '', promoCode: '' })
+  const [form, setForm] = useState({ fullName: '', email: '', password: '', company: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [promoApplied, setPromoApplied] = useState<{ description: string; extraDays: number } | null>(null)
-  const [userId, setUserId] = useState('')
-
-  const trialDays = CONFIG.TRIAL_DAYS + (promoApplied?.extraDays || 0)
-
-  function checkPromo(code: string) {
-    const promo = CONFIG.PROMO_CODES.find(p => p.code.toUpperCase() === code.toUpperCase())
-    if (promo) {
-      setPromoApplied(promo)
-      setError('')
-    } else if (code.trim()) {
-      setPromoApplied(null)
-      setError('Invalid promo code')
-    } else {
-      setPromoApplied(null)
-      setError('')
-    }
-  }
 
   async function handleCreateAccount(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
     setError('')
-
     try {
       const supabase = createClient()
-
-      // Calculate trial end date
-      const trialEnd = new Date()
-      trialEnd.setDate(trialEnd.getDate() + trialDays)
-
       const { data, error: signupError } = await supabase.auth.signUp({
         email: form.email,
         password: form.password,
         options: {
-          data: {
-            full_name: form.fullName,
-            company: form.company,
-            trial_days: trialDays,
-            promo_code: promoApplied ? form.promoCode : null,
-          },
-          emailRedirectTo: `${window.location.origin}/dashboard`,
+          data: { full_name: form.fullName, company: form.company },
+          emailRedirectTo: `${window.location.origin}/confirm`,
         }
       })
-
       if (signupError) throw signupError
-      if (data.user) setUserId(data.user.id)
-
-      // Move to step 2 — Stripe card collection
+      // Move to payment step
       setStep(2)
     } catch (err: any) {
       setError(err.message || 'Something went wrong. Please try again.')
@@ -91,17 +55,11 @@ export default function Signup() {
   }
 
   function handleStripeCheckout() {
-    // Redirect to Stripe — card collected now, charged after trial ends
-    const stripeUrl = new URL(CONFIG.STRIPE_INDIVIDUAL)
-    stripeUrl.searchParams.set('prefilled_email', form.email)
-    stripeUrl.searchParams.set('client_reference_id', userId)
-    // Stripe will show $0 due today with trial period
-    window.location.href = stripeUrl.toString()
-  }
-
-  function handleSkipCard() {
-    // Allow skip — they can add card later from dashboard
-    window.location.href = '/dashboard'
+    // Use INDIVIDUAL link only — never team
+    const url = new URL(CONFIG.STRIPE_INDIVIDUAL)
+    url.searchParams.set('prefilled_email', form.email)
+    // After payment Stripe redirects to dashboard
+    window.location.href = url.toString()
   }
 
   return (
@@ -115,7 +73,7 @@ export default function Signup() {
         GC Protect
       </a>
 
-      {/* Progress steps */}
+      {/* Progress */}
       <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:32 }}>
         {['Create account', 'Add payment', 'Start protecting'].map((label, i) => (
           <div key={label} style={{ display:'flex', alignItems:'center', gap:8 }}>
@@ -130,22 +88,26 @@ export default function Signup() {
         ))}
       </div>
 
-      {/* ── STEP 1 — Account creation ── */}
+      {/* ── STEP 1 — Account ── */}
       {step === 1 && (
         <div style={{ ...glass, padding:'36px', width:'100%', maxWidth:440, position:'relative' as const, zIndex:1 }}>
           <div style={{ textAlign:'center', marginBottom:24 }}>
             <h1 style={{ fontSize:22, fontWeight:700, letterSpacing:'-0.02em', marginBottom:8 }}>Create your account</h1>
             <p style={{ fontSize:14, color:'rgba(255,255,255,0.5)', lineHeight:1.5 }}>
-              {trialDays} days free — card required now — not charged until trial ends
+              7 days free — card required next step, not charged until day 7
             </p>
           </div>
 
-          {/* What you get */}
           <div style={{ background:'rgba(48,209,88,0.08)', border:'1px solid rgba(48,209,88,0.2)', borderRadius:12, padding:'12px 16px', marginBottom:20 }}>
             <div style={{ fontSize:11, fontWeight:600, color:'#30D158', marginBottom:8, letterSpacing:'.05em' }}>
-              FREE FOR {trialDays} DAYS · CARD REQUIRED · NOT CHARGED UNTIL DAY 7
+              FREE FOR 7 DAYS · THEN ${CONFIG.MONTHLY_PRICE}/MO
             </div>
-            {['Unlimited prompt protection','Cryptographic token security','V2 automatic response restoration','Safety flagging with crisis resources','Full audit log — CSV export'].map(f=>(
+            {[
+              'Unlimited prompt protection on any AI',
+              'Cryptographic token security',
+              'V2 automatic response restoration',
+              'Full audit log — exportable CSV',
+            ].map(f=>(
               <div key={f} style={{ display:'flex', gap:8, fontSize:12, color:'rgba(255,255,255,0.65)', padding:'2px 0' }}>
                 <span style={{ color:'#30D158', flexShrink:0 }}>✓</span>{f}
               </div>
@@ -165,34 +127,16 @@ export default function Signup() {
               <label style={{ fontSize:12, fontWeight:600, color:'rgba(255,255,255,0.5)', display:'block', marginBottom:6, letterSpacing:'.04em' }}>COMPANY (OPTIONAL)</label>
               <input style={inp} type="text" placeholder="Acme Law Firm" value={form.company} onChange={e=>setForm({...form, company:e.target.value})}/>
             </div>
-            <div style={{ marginBottom:14 }}>
+            <div style={{ marginBottom:20 }}>
               <label style={{ fontSize:12, fontWeight:600, color:'rgba(255,255,255,0.5)', display:'block', marginBottom:6, letterSpacing:'.04em' }}>PASSWORD</label>
               <input style={inp} type="password" placeholder="At least 8 characters" required minLength={8} value={form.password} onChange={e=>setForm({...form, password:e.target.value})}/>
             </div>
 
-            {/* Promo code */}
-            <div style={{ marginBottom:20 }}>
-              <label style={{ fontSize:12, fontWeight:600, color:'rgba(255,255,255,0.5)', display:'block', marginBottom:6, letterSpacing:'.04em' }}>PROMO CODE (OPTIONAL)</label>
-              <div style={{ display:'flex', gap:8 }}>
-                <input
-                  style={{ ...inp, flex:1 }}
-                  type="text"
-                  placeholder="e.g. GCPROTECT20"
-                  value={form.promoCode}
-                  onChange={e => {
-                    setForm({...form, promoCode: e.target.value})
-                    checkPromo(e.target.value)
-                  }}
-                />
+            {error && (
+              <div style={{ background:'rgba(255,69,58,0.1)', border:'1px solid rgba(255,69,58,0.25)', borderRadius:8, padding:'10px 14px', fontSize:13, color:'#FF6B6B', marginBottom:16 }}>
+                {error}
               </div>
-              {promoApplied && (
-                <div style={{ marginTop:8, fontSize:12, color:'#30D158', display:'flex', alignItems:'center', gap:6 }}>
-                  ✓ {promoApplied.description} — {trialDays} days free
-                </div>
-              )}
-            </div>
-
-            {error && <div style={{ background:'rgba(255,69,58,0.1)', border:'1px solid rgba(255,69,58,0.25)', borderRadius:8, padding:'10px 14px', fontSize:13, color:'#FF6B6B', marginBottom:16 }}>{error}</div>}
+            )}
 
             <button type="submit" disabled={loading} style={{ width:'100%', background:loading?'rgba(10,132,255,0.5)':'#0A84FF', color:'#fff', border:'none', borderRadius:12, padding:'14px', fontSize:15, fontWeight:700, cursor:loading?'not-allowed':'pointer', fontFamily:'inherit' }}>
               {loading ? 'Creating account...' : 'Continue →'}
@@ -213,57 +157,48 @@ export default function Signup() {
         </div>
       )}
 
-      {/* ── STEP 2 — Stripe card collection ── */}
+      {/* ── STEP 2 — Payment ── */}
       {step === 2 && (
         <div style={{ ...glass, padding:'36px', width:'100%', maxWidth:440, position:'relative' as const, zIndex:1 }}>
           <div style={{ textAlign:'center', marginBottom:28 }}>
             <div style={{ fontSize:40, marginBottom:12 }}>🎉</div>
             <h1 style={{ fontSize:22, fontWeight:700, letterSpacing:'-0.02em', marginBottom:8 }}>Account created!</h1>
             <p style={{ fontSize:14, color:'rgba(255,255,255,0.5)', lineHeight:1.6 }}>
-              Add your card to start your {trialDays}-day free trial. You won't be charged a single dollar until day {trialDays}. Cancel anytime before then and pay nothing.
+              One last step — add your card to start your 7-day free trial.<br/>
+              <strong style={{ color:'#fff' }}>You will not be charged today.</strong>
             </p>
           </div>
 
-          {/* Trial summary */}
+          {/* Clear trial summary */}
           <div style={{ background:'rgba(10,132,255,0.08)', border:'1px solid rgba(10,132,255,0.2)', borderRadius:12, padding:'16px', marginBottom:24 }}>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:10 }}>
-              <span style={{ fontSize:13, color:'rgba(255,255,255,0.7)' }}>Free trial period</span>
-              <span style={{ fontSize:13, fontWeight:600, color:'#30D158' }}>{trialDays} days</span>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'8px 0', borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
+              <span style={{ fontSize:13, color:'rgba(255,255,255,0.7)' }}>Plan</span>
+              <span style={{ fontSize:13, fontWeight:600 }}>GC Protect Individual</span>
             </div>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:10 }}>
-              <span style={{ fontSize:13, color:'rgba(255,255,255,0.7)' }}>Subscription after trial</span>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'8px 0', borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
+              <span style={{ fontSize:13, color:'rgba(255,255,255,0.7)' }}>Free trial</span>
+              <span style={{ fontSize:13, fontWeight:600, color:'#30D158' }}>7 days</span>
+            </div>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'8px 0', borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
+              <span style={{ fontSize:13, color:'rgba(255,255,255,0.7)' }}>After trial</span>
               <span style={{ fontSize:13, fontWeight:600 }}>${CONFIG.MONTHLY_PRICE}/month</span>
             </div>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:10 }}>
-              <span style={{ fontSize:13, color:'rgba(255,255,255,0.7)' }}>Cancel before day {trialDays}</span>
-              <span style={{ fontSize:13, fontWeight:600, color:'#30D158' }}>Pay nothing</span>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'10px 0 0' }}>
+              <span style={{ fontSize:14, fontWeight:700 }}>Charged today</span>
+              <span style={{ fontSize:20, fontWeight:800, color:'#30D158' }}>$0.00</span>
             </div>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', paddingTop:10, borderTop:'1px solid rgba(255,255,255,0.08)' }}>
-              <span style={{ fontSize:14, fontWeight:600 }}>Charged today</span>
-              <span style={{ fontSize:18, fontWeight:800, color:'#30D158' }}>$0.00</span>
-            </div>
-            {promoApplied && (
-              <div style={{ marginTop:10, fontSize:12, color:'#30D158', background:'rgba(48,209,88,0.1)', padding:'6px 10px', borderRadius:8 }}>
-                ✓ Promo applied: {promoApplied.description}
-              </div>
-            )}
           </div>
 
           <button
             onClick={handleStripeCheckout}
-            style={{ width:'100%', background:'#0A84FF', color:'#fff', border:'none', borderRadius:12, padding:'14px', fontSize:15, fontWeight:700, cursor:'pointer', fontFamily:'inherit', marginBottom:12 }}>
-            Add payment method →
+            style={{ width:'100%', background:'#0A84FF', color:'#fff', border:'none', borderRadius:12, padding:'15px', fontSize:15, fontWeight:700, cursor:'pointer', fontFamily:'inherit', marginBottom:14 }}>
+            Add card — start free trial →
           </button>
 
-          <button
-            onClick={handleSkipCard}
-            style={{ width:'100%', background:'transparent', color:'rgba(255,255,255,0.4)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:12, padding:'12px', fontSize:13, cursor:'pointer', fontFamily:'inherit' }}>
-            Skip — I'll add my card later
-          </button>
-
-          <p style={{ marginTop:16, fontSize:12, color:'rgba(255,255,255,0.3)', textAlign:'center', lineHeight:1.6 }}>
-            Card saved securely by Stripe. You control when you cancel.<br/>
-            We email you 3 days before your trial ends.
+          <p style={{ fontSize:12, color:'rgba(255,255,255,0.3)', textAlign:'center', lineHeight:1.7 }}>
+            💳 Card saved securely by Stripe — we never see your card details<br/>
+            📧 We email you 2 days before your trial ends<br/>
+            ❌ Cancel anytime — no questions asked
           </p>
         </div>
       )}
