@@ -35,7 +35,7 @@ export default function InstallGuide() {
   return (
     <div style={{ fontFamily:'-apple-system,BlinkMacSystemFont,SF Pro Display,Inter,sans-serif', background:'#1C1C1E', color:'#fff', minHeight:'100vh' }}>
 
-      <nav style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 5vw', height:64, background:'rgba(28,28,30,0.9)', backdropFilter:'blur(20px)', borderBottom:'1px solid rgba(255,255,255,0.08)', position:'sticky' as const, top:0, zIndex:100 }}>
+      <nav style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 5vw', height:64, background:'rgba(28,28,30,0.9)', backdropFilter:'blur(20px)', borderBottom:'1px solid rgba(255,255,255,0.08)', position:'sticky' as const as const, top:0, zIndex:100 }}>
         <a href="/" style={{ display:'flex', alignItems:'center', gap:10, textDecoration:'none', color:'#fff', fontWeight:700, fontSize:16 }}>
           <div style={{ width:30, height:30, background:'#0A84FF', borderRadius:7, display:'flex', alignItems:'center', justifyContent:'center', fontSize:15 }}>🛡</div>
           GC Protect
@@ -54,7 +54,7 @@ export default function InstallGuide() {
         <h1 style={{ fontSize:'clamp(28px,4vw,44px)', fontWeight:700, letterSpacing:'-0.02em', marginBottom:12, lineHeight:1.15 }}>How to install GC Protect<br/>in Chrome manually</h1>
         <p style={{ fontSize:17, color:'rgba(255,255,255,0.55)', marginBottom:48, lineHeight:1.6 }}>Takes under 2 minutes. Works exactly the same as the Chrome Web Store version.</p>
 
-        <div style={{ display:'flex', flexDirection:'column', gap:4 }}>
+        <div style={{ display:'flex', flexDirection:'column' as const, gap:4 }}>
 
           {/* Step 1 */}
           <div style={{ ...glass, padding:'28px', borderRadius:18 }}>
@@ -85,7 +85,7 @@ export default function InstallGuide() {
               <div style={{ flex:1 }}>
                 <div style={{ fontSize:18, fontWeight:600, marginBottom:8 }}>Unzip the downloaded file</div>
                 <p style={{ fontSize:14, color:'rgba(255,255,255,0.6)', lineHeight:1.6, marginBottom:16 }}>Find <code style={{ background:'rgba(255,255,255,0.1)', padding:'2px 7px', borderRadius:6, fontSize:13 }}>GCProtect-v2.zip</code> and unzip it.</p>
-                <div style={{ display:'flex', gap:10, flexWrap:'wrap' as const, marginBottom:14 }}>
+                <div style={{ display:'flex', gap:10, flexWrap:'wrap' as const as const, marginBottom:14 }}>
                   <div style={{ background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:10, padding:'12px 16px', flex:1, minWidth:180 }}>
                     <div style={{ fontSize:11, fontWeight:600, color:'rgba(255,255,255,0.4)', marginBottom:6 }}>🍎 MAC</div>
                     <div style={{ fontSize:13, color:'rgba(255,255,255,0.7)', lineHeight:1.5 }}>Double-click the .zip file. A folder called <strong>gc-protect-extension</strong> appears.</div>
@@ -130,8 +130,8 @@ export default function InstallGuide() {
                   <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
                     <span style={{ fontSize:14, color:'rgba(255,255,255,0.7)' }}>Developer mode</span>
                     <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                      <div style={{ width:44, height:24, background:'#30D158', borderRadius:12, position:'relative' as const }}>
-                        <div style={{ position:'absolute', right:2, top:2, width:20, height:20, background:'#fff', borderRadius:'50%' }}/>
+                      <div style={{ width:44, height:24, background:'#30D158', borderRadius:12, position:'relative' as const as const }}>
+                        <div style={{ position:'absolute' as const, right:2, top:2, width:20, height:20, background:'#fff', borderRadius:'50%' }}/>
                       </div>
                       <span style={{ fontSize:12, color:'#30D158', fontWeight:600 }}>ON</span>
                     </div>
@@ -151,7 +151,7 @@ export default function InstallGuide() {
               <div style={{ flex:1 }}>
                 <div style={{ fontSize:18, fontWeight:600, marginBottom:8 }}>Click "Load unpacked"</div>
                 <p style={{ fontSize:14, color:'rgba(255,255,255,0.6)', lineHeight:1.6, marginBottom:14 }}>Three buttons now appear at the top left. Click <strong style={{ color:'#fff' }}>"Load unpacked"</strong>.</p>
-                <div style={{ display:'flex', gap:8, marginBottom:16, flexWrap:'wrap' as const }}>
+                <div style={{ display:'flex', gap:8, marginBottom:16, flexWrap:'wrap' as const as const }}>
                   {['Load unpacked','Pack extension','Update'].map((btn,i)=>(
                     <div key={btn} style={{ padding:'8px 14px', borderRadius:8, fontSize:13, fontWeight:600, background:i===0?'#0A84FF':'rgba(255,255,255,0.08)', color:i===0?'#fff':'rgba(255,255,255,0.4)', border:'1px solid rgba(255,255,255,0.1)' }}>{btn}</div>
                   ))}
@@ -191,7 +191,7 @@ export default function InstallGuide() {
                   </div>
                 </div>
 
-                <div style={{ display:'flex', gap:10, flexWrap:'wrap' as const }}>
+                <div style={{ display:'flex', gap:10, flexWrap:'wrap' as const as const }}>
                   <a href="/dashboard" style={{ display:'inline-flex', alignItems:'center', gap:8, background:'#0A84FF', color:'#fff', padding:'11px 22px', borderRadius:10, fontSize:14, fontWeight:700, textDecoration:'none' }}>
                     Go to my dashboard →
                   </a>
@@ -208,7 +208,7 @@ export default function InstallGuide() {
         {/* FAQ */}
         <div style={{ marginTop:56 }}>
           <div style={{ fontSize:11, fontWeight:600, letterSpacing:'.08em', color:'rgba(255,255,255,0.3)', marginBottom:16 }}>COMMON QUESTIONS</div>
-          <div style={{ display:'flex', flexDirection:'column', gap:3 }}>
+          <div style={{ display:'flex', flexDirection:'column' as const, gap:3 }}>
             {[
               { q:'Is this safe to install manually?', a:'Yes. Chrome\'s Developer mode is built for exactly this. GC Protect runs entirely on your device — nothing is sent to external servers.' },
               { q:'Why isn\'t it on the Chrome Web Store yet?', a:'We submitted GC Protect for Google\'s review process, which typically takes 3–7 days. We\'ll email you when it\'s live.' },
@@ -225,7 +225,7 @@ export default function InstallGuide() {
           </div>
         </div>
 
-        <div style={{ marginTop:48, ...glass, padding:'24px', borderRadius:16, textAlign:'center' as const }}>
+        <div style={{ marginTop:48, ...glass, padding:'24px', borderRadius:16, textAlign:'center' as const as const }}>
           <div style={{ fontSize:15, fontWeight:600, marginBottom:6 }}>Still stuck? We'll help.</div>
           <div style={{ fontSize:13, color:'rgba(255,255,255,0.4)', marginBottom:12 }}>Response within a few hours.</div>
           <a href="mailto:intel@gratiacore.com?subject=GC Protect Install Help" style={{ color:'#0A84FF', textDecoration:'none', fontSize:14, fontWeight:600 }}>intel@gratiacore.com</a>
@@ -233,7 +233,7 @@ export default function InstallGuide() {
 
       </div>
 
-      <footer style={{ borderTop:'1px solid rgba(255,255,255,0.07)', padding:'28px 5vw', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const, gap:12, marginTop:40 }}>
+      <footer style={{ borderTop:'1px solid rgba(255,255,255,0.07)', padding:'28px 5vw', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const as const, gap:12, marginTop:40 }}>
         <div style={{ display:'flex', alignItems:'center', gap:8, fontSize:14, fontWeight:600 }}>
           <div style={{ width:24, height:24, background:'#0A84FF', borderRadius:6, display:'flex', alignItems:'center', justifyContent:'center', fontSize:12 }}>🛡</div>
           GC Protect by Gratia Core

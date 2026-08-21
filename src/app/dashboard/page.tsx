@@ -120,7 +120,7 @@ export default function Dashboard() {
     <div style={{ fontFamily:'-apple-system,BlinkMacSystemFont,sans-serif', background:'#1C1C1E', color:'#fff', minHeight:'100vh' }}>
 
       {/* Nav */}
-      <nav style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 5vw', height:64, background:'rgba(28,28,30,0.95)', backdropFilter:'blur(20px)', borderBottom:'1px solid rgba(255,255,255,0.08)', position:'sticky' as const, top:0, zIndex:100 }}>
+      <nav style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 5vw', height:64, background:'rgba(28,28,30,0.95)', backdropFilter:'blur(20px)', borderBottom:'1px solid rgba(255,255,255,0.08)', position:'sticky' as const as const, top:0, zIndex:100 }}>
         <a href="/" style={{ display:'flex', alignItems:'center', gap:10, textDecoration:'none', color:'#fff', fontWeight:700, fontSize:16 }}>
           <div style={{ width:30, height:30, background:'#0A84FF', borderRadius:7, display:'flex', alignItems:'center', justifyContent:'center', fontSize:15 }}>🛡</div>
           GC Protect
@@ -144,7 +144,7 @@ export default function Dashboard() {
         </div>
 
         {/* Trial countdown */}
-        <div style={{ ...glass, padding:'20px 24px', marginBottom:20, border:`1px solid ${trialColor}40`, background:`rgba(${daysLeft<=3?'255,69,58':daysLeft<=7?'255,159,10':'48,209,88'},0.06)`, display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const, gap:12 }}>
+        <div style={{ ...glass, padding:'20px 24px', marginBottom:20, border:`1px solid ${trialColor}40`, background:`rgba(${daysLeft<=3?'255,69,58':daysLeft<=7?'255,159,10':'48,209,88'},0.06)`, display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const as const, gap:12 }}>
           <div>
             <div style={{ fontSize:13, fontWeight:600, color:trialColor, marginBottom:4 }}>
               {daysLeft <= 0 ? '⚠️ Trial expired' : `🕐 ${daysLeft} day${daysLeft!==1?'s':''} left in your free trial`}
@@ -169,7 +169,7 @@ export default function Dashboard() {
         </div>
 
         {/* Download — gated behind account */}
-        <div style={{ ...glass, padding:'24px', marginBottom:24, border:'1.5px solid rgba(10,132,255,0.4)', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const, gap:16 }}>
+        <div style={{ ...glass, padding:'24px', marginBottom:24, border:'1.5px solid rgba(10,132,255,0.4)', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const as const, gap:16 }}>
           <div>
             <div style={{ fontSize:15, fontWeight:600, marginBottom:4 }}>🛡 GC Protect V2 — Ready to install</div>
             <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)', marginBottom:6 }}>Download and install in Chrome in under 2 minutes.</div>
@@ -219,7 +219,7 @@ export default function Dashboard() {
           ))}
 
           {/* Team teaser */}
-          <div style={{ marginTop:16, padding:'14px 16px', background:'rgba(255,255,255,0.04)', borderRadius:10, display:'flex', alignItems:'center', justifyContent:'space-between', gap:12, flexWrap:'wrap' as const }}>
+          <div style={{ marginTop:16, padding:'14px 16px', background:'rgba(255,255,255,0.04)', borderRadius:10, display:'flex', alignItems:'center', justifyContent:'space-between', gap:12, flexWrap:'wrap' as const as const }}>
             <div>
               <div style={{ fontSize:13, fontWeight:600, color:'rgba(255,255,255,0.4)', marginBottom:3 }}>🔒 Team Plan — Coming Soon</div>
               <div style={{ fontSize:12, color:'rgba(255,255,255,0.25)' }}>Shared rules, admin dashboard, team audit log, Slack alerts</div>
@@ -257,7 +257,7 @@ export default function Dashboard() {
             <div style={{ fontSize:13, color:'rgba(255,255,255,0.4)' }}>Loading updates...</div>
           ) : versions.map((v, i) => (
             <div key={v.version} style={{ paddingBottom: i < versions.length-1 ? 20 : 0, marginBottom: i < versions.length-1 ? 20 : 0, borderBottom: i < versions.length-1 ? '1px solid rgba(255,255,255,0.07)' : 'none' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:10, flexWrap:'wrap' as const }}>
+              <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:10, flexWrap:'wrap' as const as const }}>
                 <div style={{ fontFamily:'monospace', fontSize:15, fontWeight:700 }}>v{v.version}</div>
                 {v.version === latestVersion && (
                   <span style={{ fontSize:10, fontWeight:700, padding:'2px 8px', borderRadius:10, background:'rgba(48,209,88,0.15)', color:'#30D158', border:'1px solid rgba(48,209,88,0.3)' }}>LATEST</span>
@@ -267,7 +267,7 @@ export default function Dashboard() {
                 )}
                 <span style={{ fontSize:12, color:'rgba(255,255,255,0.3)', marginLeft:'auto' }}>{v.date}</span>
               </div>
-              <div style={{ display:'flex', flexDirection:'column' as const, gap:5, marginBottom:12 }}>
+              <div style={{ display:'flex', flexDirection:'column' as const as const, gap:5, marginBottom:12 }}>
                 {v.highlights.map((h: string) => (
                   <div key={h} style={{ display:'flex', gap:8, fontSize:13, color:'rgba(255,255,255,0.6)' }}>
                     <span style={{ color:'#30D158', flexShrink:0 }}>✓</span>{h}
@@ -292,7 +292,7 @@ export default function Dashboard() {
         <div style={{ fontSize:11, fontWeight:600, letterSpacing:'.07em', color:'rgba(255,255,255,0.3)', marginBottom:12 }}>TELL US WHAT YOU THINK</div>
         <div style={{ ...glass, padding:'24px', marginBottom:28 }}>
           {feedbackSent ? (
-            <div style={{ textAlign:'center', padding:'20px' }}>
+            <div style={{ textAlign:'center' as const, padding:'20px' }}>
               <div style={{ fontSize:32, marginBottom:12 }}>🙏</div>
               <div style={{ fontSize:16, fontWeight:600, marginBottom:6 }}>Thank you for your feedback!</div>
               <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>We read every response and use it to improve GC Protect.</div>
@@ -317,7 +317,7 @@ export default function Dashboard() {
               {/* Category */}
               <div style={{ marginBottom:16 }}>
                 <div style={{ fontSize:12, fontWeight:600, color:'rgba(255,255,255,0.4)', marginBottom:8, letterSpacing:'.05em' }}>CATEGORY</div>
-                <div style={{ display:'flex', gap:8, flexWrap:'wrap' as const }}>
+                <div style={{ display:'flex', gap:8, flexWrap:'wrap' as const as const }}>
                   {['general','bug','feature request','question','other'].map(cat=>(
                     <button key={cat} type="button" onClick={()=>setFeedback({...feedback, category:cat})}
                       style={{ padding:'6px 14px', borderRadius:20, fontSize:12, fontWeight:500, border:'1px solid', borderColor:feedback.category===cat?'#0A84FF':'rgba(255,255,255,0.15)', background:feedback.category===cat?'rgba(10,132,255,0.2)':'transparent', color:feedback.category===cat?'#60A5FA':'rgba(255,255,255,0.5)', cursor:'pointer', fontFamily:'inherit', textTransform:'capitalize' }}>
@@ -345,7 +345,7 @@ export default function Dashboard() {
         </div>
 
         {/* Support */}
-        <div style={{ ...glass, padding:'20px 24px', textAlign:'center' as const, background:'rgba(255,255,255,0.03)' }}>
+        <div style={{ ...glass, padding:'20px 24px', textAlign:'center' as const as const, background:'rgba(255,255,255,0.03)' }}>
           <div style={{ fontSize:14, color:'rgba(255,255,255,0.4)', marginBottom:8 }}>Questions or need help installing?</div>
           <a href="mailto:intel@gratiacore.com" style={{ color:'#0A84FF', textDecoration:'none', fontSize:14, fontWeight:500 }}>intel@gratiacore.com</a>
           <span style={{ color:'rgba(255,255,255,0.15)', margin:'0 12px' }}>·</span>

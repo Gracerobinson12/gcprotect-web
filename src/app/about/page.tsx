@@ -13,7 +13,7 @@ export default function About() {
     <div style={{ fontFamily:'-apple-system,BlinkMacSystemFont,SF Pro Display,Inter,sans-serif', background:'#1C1C1E', color:'#fff', minHeight:'100vh' }}>
 
       {/* Nav */}
-      <nav style={{ position:'sticky' as const, top:0, zIndex:100, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 5vw', height:64, background:'rgba(28,28,30,0.88)', backdropFilter:'blur(20px)', borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
+      <nav style={{ position:'sticky' as const as const, top:0, zIndex:100, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 5vw', height:64, background:'rgba(28,28,30,0.88)', backdropFilter:'blur(20px)', borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
         <a href="/" style={{ display:'flex', alignItems:'center', gap:10, textDecoration:'none', color:'#fff', fontWeight:700, fontSize:17 }}>
           <div style={{ width:32, height:32, background:'#0A84FF', borderRadius:9, display:'flex', alignItems:'center', justifyContent:'center', fontSize:17 }}>🛡</div>
           GC Protect
@@ -26,7 +26,7 @@ export default function About() {
       <div style={{ maxWidth:720, margin:'0 auto', padding:'80px 5vw' }}>
 
         {/* Founder photo + intro */}
-        <div style={{ display:'flex', gap:32, alignItems:'flex-start', marginBottom:56, flexWrap:'wrap' as const }}>
+        <div style={{ display:'flex', gap:32, alignItems:'flex-start', marginBottom:56, flexWrap:'wrap' as const as const }}>
           <div style={{ flexShrink:0 }}>
             <img
               src="/grace.jpeg"
@@ -84,7 +84,7 @@ export default function About() {
         </div>
 
         {/* Contact */}
-        <div style={{ ...glass, padding:'28px 32px', borderRadius:20, display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const, gap:16 }}>
+        <div style={{ ...glass, padding:'28px 32px', borderRadius:20, display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const as const, gap:16 }}>
           <div>
             <div style={{ fontSize:15, fontWeight:600, marginBottom:4 }}>Questions or feedback?</div>
             <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>I read every email personally.</div>
@@ -97,7 +97,7 @@ export default function About() {
       </div>
 
       {/* Footer */}
-      <footer style={{ borderTop:'1px solid rgba(255,255,255,0.07)', padding:'28px 5vw', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const, gap:16, marginTop:40 }}>
+      <footer style={{ borderTop:'1px solid rgba(255,255,255,0.07)', padding:'28px 5vw', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const as const, gap:16, marginTop:40 }}>
         <div style={{ display:'flex', alignItems:'center', gap:8, fontSize:14, fontWeight:600 }}>
           <div style={{ width:24, height:24, background:'#0A84FF', borderRadius:6, display:'flex', alignItems:'center', justifyContent:'center', fontSize:12 }}>🛡</div>
           GC Protect by Gratia Core

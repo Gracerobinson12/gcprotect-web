@@ -63,9 +63,9 @@ export default function Signup() {
   }
 
   return (
-    <div style={{ fontFamily:'-apple-system,BlinkMacSystemFont,sans-serif', background:'#1C1C1E', color:'#fff', minHeight:'100vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'40px 5vw' }}>
-      <div style={{ position:'fixed', inset:0, overflow:'hidden', pointerEvents:'none' }}>
-        <div style={{ position:'absolute', top:-200, left:'30%', width:600, height:600, background:'radial-gradient(circle,rgba(10,132,255,0.1) 0%,transparent 70%)', borderRadius:'50%' }}/>
+    <div style={{ fontFamily:'-apple-system,BlinkMacSystemFont,sans-serif', background:'#1C1C1E', color:'#fff', minHeight:'100vh', display:'flex', flexDirection:'column' as const, alignItems:'center', justifyContent:'center', padding:'40px 5vw' }}>
+      <div style={{ position:'fixed' as const, inset:0, overflow:'hidden', pointerEvents:'none' }}>
+        <div style={{ position:'absolute' as const, top:-200, left:'30%', width:600, height:600, background:'radial-gradient(circle,rgba(10,132,255,0.1) 0%,transparent 70%)', borderRadius:'50%' }}/>
       </div>
 
       <a href="/" style={{ display:'flex', alignItems:'center', gap:10, textDecoration:'none', color:'#fff', fontWeight:700, fontSize:17, marginBottom:36 }}>
@@ -90,8 +90,8 @@ export default function Signup() {
 
       {/* ── STEP 1 — Account ── */}
       {step === 1 && (
-        <div style={{ ...glass, padding:'36px', width:'100%', maxWidth:440, position:'relative' as const, zIndex:1 }}>
-          <div style={{ textAlign:'center', marginBottom:24 }}>
+        <div style={{ ...glass, padding:'36px', width:'100%', maxWidth:440, position:'relative' as const as const, zIndex:1 }}>
+          <div style={{ textAlign:'center' as const, marginBottom:24 }}>
             <h1 style={{ fontSize:22, fontWeight:700, letterSpacing:'-0.02em', marginBottom:8 }}>Create your account</h1>
             <p style={{ fontSize:14, color:'rgba(255,255,255,0.5)', lineHeight:1.5 }}>
               7 days free — card required next step, not charged until day 7
@@ -143,14 +143,14 @@ export default function Signup() {
             </button>
           </form>
 
-          <div style={{ marginTop:16, fontSize:12, color:'rgba(255,255,255,0.3)', textAlign:'center', lineHeight:1.6 }}>
+          <div style={{ marginTop:16, fontSize:12, color:'rgba(255,255,255,0.3)', textAlign:'center' as const, lineHeight:1.6 }}>
             By signing up you agree to our{' '}
             <a href="/terms" style={{ color:'rgba(255,255,255,0.5)', textDecoration:'none' }}>Terms</a>
             {' '}and{' '}
             <a href="/privacy" style={{ color:'rgba(255,255,255,0.5)', textDecoration:'none' }}>Privacy Policy</a>.
           </div>
 
-          <div style={{ marginTop:16, textAlign:'center', fontSize:14, color:'rgba(255,255,255,0.4)' }}>
+          <div style={{ marginTop:16, textAlign:'center' as const, fontSize:14, color:'rgba(255,255,255,0.4)' }}>
             Already have an account?{' '}
             <a href="/login" style={{ color:'#0A84FF', textDecoration:'none', fontWeight:500 }}>Log in</a>
           </div>
@@ -159,8 +159,8 @@ export default function Signup() {
 
       {/* ── STEP 2 — Payment ── */}
       {step === 2 && (
-        <div style={{ ...glass, padding:'36px', width:'100%', maxWidth:440, position:'relative' as const, zIndex:1 }}>
-          <div style={{ textAlign:'center', marginBottom:28 }}>
+        <div style={{ ...glass, padding:'36px', width:'100%', maxWidth:440, position:'relative' as const as const, zIndex:1 }}>
+          <div style={{ textAlign:'center' as const, marginBottom:28 }}>
             <div style={{ fontSize:40, marginBottom:12 }}>🎉</div>
             <h1 style={{ fontSize:22, fontWeight:700, letterSpacing:'-0.02em', marginBottom:8 }}>Account created!</h1>
             <p style={{ fontSize:14, color:'rgba(255,255,255,0.5)', lineHeight:1.6 }}>
@@ -195,7 +195,10 @@ export default function Signup() {
             Add card — start free trial →
           </button>
 
-          <p style={{ fontSize:12, color:'rgba(255,255,255,0.3)', textAlign:'center', lineHeight:1.7 }}>
+          <div style={{ background:'rgba(255,214,10,0.08)', border:'1px solid rgba(255,214,10,0.2)', borderRadius:10, padding:'10px 14px', marginBottom:14, fontSize:12, color:'rgba(255,255,255,0.7)', textAlign:'center' as const as const }}>
+            🎟 Have a promo code? Enter it on the next page in Stripe checkout.
+          </div>
+          <p style={{ fontSize:12, color:'rgba(255,255,255,0.3)', textAlign:'center' as const, lineHeight:1.7 }}>
             💳 Card saved securely by Stripe — we never see your card details<br/>
             📧 We email you 2 days before your trial ends<br/>
             ❌ Cancel anytime — no questions asked

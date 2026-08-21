@@ -82,7 +82,7 @@ function LiveDemo() {
             ))}
           </div>
           <div style={{ fontSize:10, fontWeight:700, letterSpacing:'.06em', color:'#30D158', marginBottom:8 }}>🛡 PROTECTED — SAFE TO SEND TO AI</div>
-          <div style={{ background:'rgba(48,209,88,0.08)', border:'1px solid rgba(48,209,88,0.2)', borderRadius:12, padding:14, fontFamily:'monospace', fontSize:12, lineHeight:1.7, color:'rgba(255,255,255,0.85)', wordBreak:'break-all' as const }}>
+          <div style={{ background:'rgba(48,209,88,0.08)', border:'1px solid rgba(48,209,88,0.2)', borderRadius:12, padding:14, fontFamily:'monospace', fontSize:12, lineHeight:1.7, color:'rgba(255,255,255,0.85)', wordBreak:'break-all' as const as const }}>
             {result.protectedText.split('\x00').map((part,i)=>
               i%2===1 ? <span key={i} style={{ background:'rgba(48,209,88,0.2)', color:'#30D158', padding:'1px 5px', borderRadius:5, fontWeight:600 }}>{part}</span>
               : <span key={i}>{part.split('\n').map((line,j,arr)=><span key={j}>{line}{j<arr.length-1&&<br/>}</span>)}</span>
@@ -104,13 +104,13 @@ function LiveDemo() {
 export default function Home() {
   return (
     <div style={{ fontFamily:'-apple-system,BlinkMacSystemFont,SF Pro Display,Inter,sans-serif', color:'#fff', background:'#1C1C1E', minHeight:'100vh' }}>
-      <div style={{ position:'fixed', inset:0, overflow:'hidden', pointerEvents:'none', zIndex:0 }}>
-        <div style={{ position:'absolute', top:-200, left:'30%', width:600, height:600, background:'radial-gradient(circle,rgba(10,132,255,0.1) 0%,transparent 70%)', borderRadius:'50%' }}/>
-        <div style={{ position:'absolute', bottom:-100, right:'20%', width:500, height:500, background:'radial-gradient(circle,rgba(48,209,88,0.07) 0%,transparent 70%)', borderRadius:'50%' }}/>
+      <div style={{ position:'fixed' as const, inset:0, overflow:'hidden', pointerEvents:'none', zIndex:0 }}>
+        <div style={{ position:'absolute' as const, top:-200, left:'30%', width:600, height:600, background:'radial-gradient(circle,rgba(10,132,255,0.1) 0%,transparent 70%)', borderRadius:'50%' }}/>
+        <div style={{ position:'absolute' as const, bottom:-100, right:'20%', width:500, height:500, background:'radial-gradient(circle,rgba(48,209,88,0.07) 0%,transparent 70%)', borderRadius:'50%' }}/>
       </div>
 
       {/* NAV */}
-      <nav style={{ position:'sticky', top:0, zIndex:100, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 5vw', height:64, background:'rgba(28,28,30,0.88)', backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)', borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
+      <nav style={{ position:'sticky' as const, top:0, zIndex:100, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 5vw', height:64, background:'rgba(28,28,30,0.88)', backdropFilter:'blur(20px)', WebkitBackdropFilter:'blur(20px)', borderBottom:'1px solid rgba(255,255,255,0.08)' }}>
         <a href="/" style={{ display:'flex', alignItems:'center', gap:10, textDecoration:'none', color:'#fff', fontWeight:700, fontSize:17 }}>
           <div style={{ width:32, height:32, background:'#0A84FF', borderRadius:9, display:'flex', alignItems:'center', justifyContent:'center', fontSize:17 }}>🛡</div>
           GC Protect
@@ -125,7 +125,7 @@ export default function Home() {
       </nav>
 
       {/* HERO */}
-      <section style={{ position:'relative', zIndex:1, minHeight:'calc(100vh - 64px)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'80px 5vw 60px', textAlign:'center' }}>
+      <section style={{ position:'relative' as const, zIndex:1, minHeight:'calc(100vh - 64px)', display:'flex', flexDirection:'column' as const, alignItems:'center', justifyContent:'center', padding:'80px 5vw 60px', textAlign:'center' as const }}>
         <div style={{ display:'inline-flex', alignItems:'center', gap:6, background:'rgba(10,132,255,0.15)', border:'1px solid rgba(10,132,255,0.3)', color:'#60A5FA', fontSize:13, fontWeight:500, padding:'6px 16px', borderRadius:20, marginBottom:28 }}>
           <span style={{ width:6, height:6, background:'#0A84FF', borderRadius:'50%' }}/>
           Real-time AI data protection · V2 now available
@@ -141,7 +141,7 @@ export default function Home() {
           GC Protect sits between your employees and ChatGPT, Claude, Gemini, and Copilot. Sensitive data is replaced with secure tokens before anything sends. The AI works. Your clients stay protected.
         </p>
 
-        <div style={{ display:'flex', gap:12, flexWrap:'wrap', justifyContent:'center', marginBottom:16 }}>
+        <div style={{ display:'flex', gap:12, flexWrap:'wrap' as const, justifyContent:'center', marginBottom:16 }}>
           <a href="/signup" style={{ background:'#0A84FF', color:'#fff', padding:'15px 36px', borderRadius:14, fontSize:16, fontWeight:700, textDecoration:'none' }}>
             🛡 Start free — 7 days
           </a>
@@ -160,9 +160,9 @@ export default function Home() {
       </section>
 
       {/* STATS */}
-      <div style={{ position:'relative', zIndex:1, display:'flex', justifyContent:'center', borderTop:'1px solid rgba(255,255,255,0.07)', borderBottom:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.2)' }}>
+      <div style={{ position:'relative' as const, zIndex:1, display:'flex', justifyContent:'center', borderTop:'1px solid rgba(255,255,255,0.07)', borderBottom:'1px solid rgba(255,255,255,0.07)', background:'rgba(0,0,0,0.2)' }}>
         {[{num:'13+',label:'Data types detected'},{num:'10',label:'AI platforms protected'},{num:'<1s',label:'Time to scan & protect'},{num:'V2',label:'Auto response restoration'}].map((s,i)=>(
-          <div key={s.num} style={{ flex:1, maxWidth:200, padding:'28px 16px', textAlign:'center', borderRight:i<3?'1px solid rgba(255,255,255,0.07)':'none' }}>
+          <div key={s.num} style={{ flex:1, maxWidth:200, padding:'28px 16px', textAlign:'center' as const, borderRight:i<3?'1px solid rgba(255,255,255,0.07)':'none' }}>
             <div style={{ fontSize:32, fontWeight:700, color:'#0A84FF', letterSpacing:'-0.02em', marginBottom:6 }}>{s.num}</div>
             <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)' }}>{s.label}</div>
           </div>
@@ -170,13 +170,13 @@ export default function Home() {
       </div>
 
       {/* HOW IT WORKS */}
-      <section id="how" style={{ position:'relative', zIndex:1, padding:'100px 5vw' }}>
+      <section id="how" style={{ position:'relative' as const, zIndex:1, padding:'100px 5vw' }}>
         <div style={{ maxWidth:720, margin:'0 auto' }}>
           <div style={{ fontSize:12, fontWeight:600, letterSpacing:'.1em', color:'#0A84FF', marginBottom:16 }}>HOW IT WORKS</div>
           <h2 style={{ fontSize:'clamp(28px,4vw,44px)', fontWeight:700, letterSpacing:'-0.02em', marginBottom:16, lineHeight:1.15 }}>Your team uses AI exactly<br/>the same way. Just safely.</h2>
           <p style={{ fontSize:17, color:'rgba(255,255,255,0.55)', marginBottom:56, lineHeight:1.6, maxWidth:520 }}>GC Protect runs invisibly. Real names go in as tokens. The AI answers. Real names come back. Your clients never exposed.</p>
 
-          <div style={{ display:'flex', flexDirection:'column', gap:3 }}>
+          <div style={{ display:'flex', flexDirection:'column' as const, gap:3 }}>
             {[
               { icon:'✍️', title:'Employee types a prompt with customer data', desc:'Normal workflow — they ask AI for help with a summary, email, or analysis and include customer info.', code:{ bad:true, text:'Customer: Jane Doe\nSSN: 123-45-6789\nEmail: jane@company.com\nOrder: $2,840' } },
               { icon:'🛡️', title:'GC Protect intercepts before it sends', desc:'In under a second, every sensitive field is replaced with a cryptographically unique token. Cryptographic tokens unique per session — consistent within a conversation, never reused across sessions.', code:{ bad:false, text:'Customer: GC-C9K2P4M\nSSN: GC-IDX8R2Q1\nEmail: GC-EM3T7K9\nOrder: GC-SAL2M8R' } },
@@ -190,7 +190,7 @@ export default function Home() {
                 <div style={{ flex:1 }}>
                   <div style={{ fontSize:15, fontWeight:600, marginBottom:6 }}>{step.title}</div>
                   <p style={{ fontSize:14, color:'rgba(255,255,255,0.55)', lineHeight:1.6, margin:0, marginBottom:step.code?12:0 }}>{step.desc}</p>
-                  {step.code && <div style={{ background:step.code.bad?'rgba(255,69,58,0.08)':'rgba(48,209,88,0.08)', border:`1px solid ${step.code.bad?'rgba(255,69,58,0.2)':'rgba(48,209,88,0.2)'}`, borderRadius:10, padding:'10px 14px', fontFamily:'monospace', fontSize:12, color:'rgba(255,255,255,0.75)', lineHeight:1.7, whiteSpace:'pre-wrap' as const }}>{step.code.text}</div>}
+                  {step.code && <div style={{ background:step.code.bad?'rgba(255,69,58,0.08)':'rgba(48,209,88,0.08)', border:`1px solid ${step.code.bad?'rgba(255,69,58,0.2)':'rgba(48,209,88,0.2)'}`, borderRadius:10, padding:'10px 14px', fontFamily:'monospace', fontSize:12, color:'rgba(255,255,255,0.75)', lineHeight:1.7, whiteSpace:'pre-wrap' as const as const }}>{step.code.text}</div>}
                 </div>
               </div>
             ))}
@@ -199,7 +199,7 @@ export default function Home() {
       </section>
 
       {/* WHO IT'S FOR */}
-      <section style={{ position:'relative', zIndex:1, padding:'100px 5vw', background:'rgba(0,0,0,0.2)' }}>
+      <section style={{ position:'relative' as const, zIndex:1, padding:'100px 5vw', background:'rgba(0,0,0,0.2)' }}>
         <div style={{ maxWidth:960, margin:'0 auto' }}>
           <div style={{ fontSize:12, fontWeight:600, letterSpacing:'.1em', color:'#0A84FF', marginBottom:16 }}>WHO IT'S FOR</div>
           <h2 style={{ fontSize:'clamp(28px,4vw,44px)', fontWeight:700, letterSpacing:'-0.02em', marginBottom:56, lineHeight:1.15 }}>Built for businesses that handle<br/>other people's information.</h2>
@@ -224,7 +224,7 @@ export default function Home() {
 
 
       {/* TRUST & DATA HANDLING */}
-      <section style={{ position:'relative', zIndex:1, padding:'100px 5vw' }}>
+      <section style={{ position:'relative' as const, zIndex:1, padding:'100px 5vw' }}>
         <div style={{ maxWidth:900, margin:'0 auto' }}>
           <div style={{ fontSize:12, fontWeight:600, letterSpacing:'.1em', color:'#0A84FF', marginBottom:16 }}>HOW WE HANDLE YOUR DATA</div>
           <h2 style={{ fontSize:'clamp(28px,4vw,44px)', fontWeight:700, letterSpacing:'-0.02em', marginBottom:16, lineHeight:1.15 }}>
@@ -272,7 +272,7 @@ export default function Home() {
       </section>
 
       {/* BEFORE / AFTER — AI OUTPUT QUALITY */}
-      <section style={{ position:'relative', zIndex:1, padding:'100px 5vw', background:'rgba(0,0,0,0.2)' }}>
+      <section style={{ position:'relative' as const, zIndex:1, padding:'100px 5vw', background:'rgba(0,0,0,0.2)' }}>
         <div style={{ maxWidth:800, margin:'0 auto' }}>
           <div style={{ fontSize:12, fontWeight:600, letterSpacing:'.1em', color:'#0A84FF', marginBottom:16 }}>DOES IT ACTUALLY WORK?</div>
           <h2 style={{ fontSize:'clamp(28px,4vw,44px)', fontWeight:700, letterSpacing:'-0.02em', marginBottom:16, lineHeight:1.15 }}>
@@ -318,7 +318,7 @@ Write a benefits summary.'}
 
 Based on a salary of GC-SAL4R, GC-C9K2P qualifies for the standard benefits tier including health, dental, and 401k matching at 4%..."'}
             </div>
-            <div style={{ display:'flex', gap:8, flexWrap:'wrap' as const }}>
+            <div style={{ display:'flex', gap:8, flexWrap:'wrap' as const as const }}>
               <span style={{ fontSize:12, color:'rgba(255,255,255,0.6)', background:'rgba(255,255,255,0.06)', padding:'4px 10px', borderRadius:20 }}>✓ Correct structure</span>
               <span style={{ fontSize:12, color:'rgba(255,255,255,0.6)', background:'rgba(255,255,255,0.06)', padding:'4px 10px', borderRadius:20 }}>✓ Accurate calculations</span>
               <span style={{ fontSize:12, color:'rgba(255,255,255,0.6)', background:'rgba(255,255,255,0.06)', padding:'4px 10px', borderRadius:20 }}>✓ Real names restored automatically</span>
@@ -329,7 +329,7 @@ Based on a salary of GC-SAL4R, GC-C9K2P qualifies for the standard benefits tier
       </section>
 
       {/* PRICING */}
-      <section id="pricing" style={{ position:'relative', zIndex:1, padding:'100px 5vw' }}>
+      <section id="pricing" style={{ position:'relative' as const, zIndex:1, padding:'100px 5vw' }}>
         <div style={{ maxWidth:760, margin:'0 auto' }}>
           <div style={{ fontSize:12, fontWeight:600, letterSpacing:'.1em', color:'#0A84FF', marginBottom:16 }}>PRICING</div>
           <h2 style={{ fontSize:'clamp(28px,4vw,44px)', fontWeight:700, letterSpacing:'-0.02em', marginBottom:16, lineHeight:1.15 }}>Simple pricing.<br/>Start free for 7 days.</h2>
@@ -337,8 +337,8 @@ Based on a salary of GC-SAL4R, GC-C9K2P qualifies for the standard benefits tier
 
           <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))', gap:16 }}>
             {/* Individual */}
-            <div style={{ ...glass, padding:'28px 24px', borderRadius:20, border:'1.5px solid rgba(10,132,255,0.5)', background:'rgba(10,132,255,0.08)', position:'relative' as const }}>
-              <div style={{ position:'absolute', top:-12, left:20, background:'#30D158', color:'#000', fontSize:11, fontWeight:700, padding:'3px 12px', borderRadius:20 }}>AVAILABLE NOW</div>
+            <div style={{ ...glass, padding:'28px 24px', borderRadius:20, border:'1.5px solid rgba(10,132,255,0.5)', background:'rgba(10,132,255,0.08)', position:'relative' as const as const }}>
+              <div style={{ position:'absolute' as const, top:-12, left:20, background:'#30D158', color:'#000', fontSize:11, fontWeight:700, padding:'3px 12px', borderRadius:20 }}>AVAILABLE NOW</div>
               <div style={{ fontSize:15, fontWeight:600, marginBottom:6 }}>Individual</div>
               <div style={{ display:'flex', alignItems:'baseline', gap:4, marginBottom:4 }}>
                 <div style={{ fontSize:40, fontWeight:700, letterSpacing:'-0.02em', lineHeight:1 }}>$12</div>
@@ -353,18 +353,18 @@ Based on a salary of GC-SAL4R, GC-C9K2P qualifies for the standard benefits tier
                   <span style={{ color:'#30D158', flexShrink:0, fontWeight:600 }}>✓</span>{f}
                 </div>
               ))}
-              <a href="/signup" style={{ display:'block', marginTop:20, padding:13, borderRadius:12, textAlign:'center', fontSize:15, fontWeight:700, textDecoration:'none', background:'#0A84FF', color:'#fff' }}>
+              <a href="/signup" style={{ display:'block', marginTop:20, padding:13, borderRadius:12, textAlign:'center' as const, fontSize:15, fontWeight:700, textDecoration:'none', background:'#0A84FF', color:'#fff' }}>
                 Create free account
               </a>
             </div>
 
             {/* Team coming soon */}
-            <div style={{ ...glass, padding:'28px 24px', borderRadius:20, position:'relative' as const, overflow:'hidden' }}>
-              <div style={{ position:'absolute', top:-12, left:20, background:'rgba(255,255,255,0.15)', color:'#fff', fontSize:11, fontWeight:700, padding:'3px 12px', borderRadius:20 }}>COMING SOON</div>
-              <div style={{ position:'absolute', inset:0, backdropFilter:'blur(6px)', WebkitBackdropFilter:'blur(6px)', zIndex:2, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:'rgba(28,28,30,0.6)', borderRadius:20 }}>
+            <div style={{ ...glass, padding:'28px 24px', borderRadius:20, position:'relative' as const as const, overflow:'hidden' }}>
+              <div style={{ position:'absolute' as const, top:-12, left:20, background:'rgba(255,255,255,0.15)', color:'#fff', fontSize:11, fontWeight:700, padding:'3px 12px', borderRadius:20 }}>COMING SOON</div>
+              <div style={{ position:'absolute' as const, inset:0, backdropFilter:'blur(6px)', WebkitBackdropFilter:'blur(6px)', zIndex:2, display:'flex', flexDirection:'column' as const, alignItems:'center', justifyContent:'center', background:'rgba(28,28,30,0.6)', borderRadius:20 }}>
                 <div style={{ fontSize:32, marginBottom:12 }}>🔒</div>
                 <div style={{ fontSize:17, fontWeight:700, marginBottom:8 }}>Team Plan</div>
-                <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)', textAlign:'center', maxWidth:200, lineHeight:1.6 }}>Shared rules, admin dashboard, team audit log, Slack alerts — up to 10 seats</div>
+                <div style={{ fontSize:13, color:'rgba(255,255,255,0.5)', textAlign:'center' as const, maxWidth:200, lineHeight:1.6 }}>Shared rules, admin dashboard, team audit log, Slack alerts — up to 10 seats</div>
                 <a href="mailto:intel@gratiacore.com?subject=Team Plan Waitlist" style={{ marginTop:16, background:'rgba(255,255,255,0.12)', color:'#fff', border:'1px solid rgba(255,255,255,0.2)', padding:'10px 22px', borderRadius:10, fontSize:13, fontWeight:600, textDecoration:'none' }}>
                   Join Waitlist
                 </a>
@@ -388,7 +388,7 @@ Based on a salary of GC-SAL4R, GC-C9K2P qualifies for the standard benefits tier
       </section>
 
       {/* FEEDBACK CTA */}
-      <section style={{ position:'relative', zIndex:1, padding:'80px 5vw', textAlign:'center', background:'rgba(0,0,0,0.2)' }}>
+      <section style={{ position:'relative' as const, zIndex:1, padding:'80px 5vw', textAlign:'center' as const, background:'rgba(0,0,0,0.2)' }}>
         <h2 style={{ fontSize:'clamp(24px,4vw,40px)', fontWeight:700, letterSpacing:'-0.02em', marginBottom:16, lineHeight:1.2 }}>
           Try it free. Tell us what you think.
         </h2>
@@ -402,7 +402,7 @@ Based on a salary of GC-SAL4R, GC-C9K2P qualifies for the standard benefits tier
       </section>
 
       {/* FOOTER */}
-      <footer style={{ position:'relative', zIndex:1, borderTop:'1px solid rgba(255,255,255,0.07)', padding:'32px 5vw', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const, gap:16 }}>
+      <footer style={{ position:'relative' as const, zIndex:1, borderTop:'1px solid rgba(255,255,255,0.07)', padding:'32px 5vw', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap' as const as const, gap:16 }}>
         <div style={{ display:'flex', alignItems:'center', gap:10, fontSize:15, fontWeight:600 }}>
           <div style={{ width:26, height:26, background:'#0A84FF', borderRadius:7, display:'flex', alignItems:'center', justifyContent:'center', fontSize:13 }}>🛡</div>
           <div>

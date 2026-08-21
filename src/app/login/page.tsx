@@ -41,9 +41,9 @@ export default function Login() {
   }
 
   return (
-    <div style={{ fontFamily:'-apple-system,BlinkMacSystemFont,sans-serif', background:'#1C1C1E', color:'#fff', minHeight:'100vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'40px 5vw' }}>
-      <div style={{ position:'fixed', inset:0, overflow:'hidden', pointerEvents:'none' }}>
-        <div style={{ position:'absolute', top:-200, left:'30%', width:600, height:600, background:'radial-gradient(circle,rgba(10,132,255,0.1) 0%,transparent 70%)', borderRadius:'50%' }}/>
+    <div style={{ fontFamily:'-apple-system,BlinkMacSystemFont,sans-serif', background:'#1C1C1E', color:'#fff', minHeight:'100vh', display:'flex', flexDirection:'column' as const, alignItems:'center', justifyContent:'center', padding:'40px 5vw' }}>
+      <div style={{ position:'fixed' as const, inset:0, overflow:'hidden', pointerEvents:'none' }}>
+        <div style={{ position:'absolute' as const, top:-200, left:'30%', width:600, height:600, background:'radial-gradient(circle,rgba(10,132,255,0.1) 0%,transparent 70%)', borderRadius:'50%' }}/>
       </div>
 
       <a href="/" style={{ display:'flex', alignItems:'center', gap:10, textDecoration:'none', color:'#fff', fontWeight:700, fontSize:17, marginBottom:40 }}>
@@ -51,8 +51,8 @@ export default function Login() {
         GC Protect
       </a>
 
-      <div style={{ ...glass, padding:'36px', width:'100%', maxWidth:400, position:'relative' as const, zIndex:1 }}>
-        <div style={{ textAlign:'center', marginBottom:28 }}>
+      <div style={{ ...glass, padding:'36px', width:'100%', maxWidth:400, position:'relative' as const as const, zIndex:1 }}>
+        <div style={{ textAlign:'center' as const, marginBottom:28 }}>
           <h1 style={{ fontSize:24, fontWeight:700, letterSpacing:'-0.02em', marginBottom:8 }}>Welcome back</h1>
           <p style={{ fontSize:14, color:'rgba(255,255,255,0.5)' }}>Log in to your GC Protect account</p>
         </div>
@@ -77,9 +77,9 @@ export default function Login() {
           </button>
         </form>
 
-        <div style={{ marginTop:20, textAlign:'center', fontSize:14, color:'rgba(255,255,255,0.4)' }}>
+        <div style={{ marginTop:20, textAlign:'center' as const, fontSize:14, color:'rgba(255,255,255,0.4)' }}>
           Don't have an account?{' '}
-          <a href="/signup" style={{ color:'#0A84FF', textDecoration:'none', fontWeight:500 }}>Start free — 7 days</a>
+          <a href="/signup" style={{ color:'#0A84FF', textDecoration:'none', fontWeight:500 }}>Start free — 30 days</a>
         </div>
       </div>
     </div>
